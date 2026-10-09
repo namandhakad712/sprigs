@@ -159,6 +159,11 @@
   </div>
   <div class="side">
     <div class="panel">
+      <h3>How to play</h3>
+      <p class="hint" id="about" style="margin-bottom:8px"></p>
+      <div class="controls-list" id="howto" style="line-height:1.8"></div>
+    </div>
+    <div class="panel">
       <h3>Controls</h3>
       <div class="controls-list" id="controls"></div>
     </div>
@@ -183,30 +188,58 @@
     "sprigos":  { title: "SprigOS", genre: "OS Sim / Puzzle",
                   file: "sprigos/game.js",
                   share: "https://sprig.hackclub.com/share/ANNlTxgIrId3kEl6fydN",
+                  about: "A tiny operating system on a 160x128 screen.",
+                  howto: ["W/S moves the desktop cursor, I opens the selected app, K goes back, L restarts.",
+                          "Apps: Terminal (try: help, ls, hack), Files, Calculator, and Hack — a 5-puzzle mini-game.",
+                          "Goal: explore every app and breach the mainframe in Hack."],
                   controls: [["W S A D", "Navigate"], ["I", "Select"], ["K", "Back"], ["L", "Restart"]] },
     "arcana":   { title: "Arcana Ascent", genre: "Deckbuilding Roguelite",
                   file: "arcana_ascent/arcana_ascent.js",
                   share: "https://sprig.hackclub.com/share/2nz3NPD0nm5VvfpySjln",
+                  about: "Slay-the-Spire-style deckbuilder: climb 5 floors, draft a card after each guardian.",
+                  howto: ["W/S picks a card in hand (A/D flips Deck/Draw/Discard tabs), I plays it, J ends your turn.",
+                          "Block soaks hits, poison ticks down, energy refills to 3 each turn.",
+                          "After each win: I takes the highlighted card, K skips it for +6 HP."],
                   controls: [["W S", "Cursor"], ["A D", "Deck tabs"], ["I", "Play / Confirm"], ["J", "End turn"], ["K", "Deck / Skip"], ["L", "Title"]] },
     "rail":     { title: "Rail Yard Dispatcher", genre: "Real-Time Puzzle",
                   file: "rail-yard-dispatcher/rail_dispatcher.js",
                   share: "https://sprig.hackclub.com/share/0P2SdWjEwyQ1y0DJ7VnR",
+                  about: "Trains roll in from the top — steer each one to the depot of its own color.",
+                  howto: ["WASD hops the cursor between yellow junction arrows, I/J rotates the arrow under it.",
+                          "Red train goes to red depot, blue to blue, yellow to yellow. Wrong depot costs 1 HP (3 total).",
+                          "K pauses, L restarts. Clear all 3 levels as speed ramps up."],
                   controls: [["W A S D", "Hop cursor"], ["I / J", "Rotate arrow"], ["K", "Pause"], ["L", "Restart"]] },
     "mirror":   { title: "MirrorSelf", genre: "Mirror Puzzle",
                   file: "mirrorself/mirrorself.js",
                   share: "https://sprig.hackclub.com/share/UTktIABTRpOXN3uuxV6V",
+                  about: "One brain, two bodies: your pink twin mirrors every step 180 degrees around the center.",
+                  howto: ["WASD steps both bodies at once. Park yourself on YOUR door (D) and your twin on ITS door (M).",
+                          "The floor remembers your trail — stepping on your own past kills you. Spikes kill both.",
+                          "L undoes one step per level, I retries, K opens level select. 5 levels, 3 lives."],
                   controls: [["W A S D", "Step both"], ["L", "Undo (1x)"], ["I", "Retry / Next"], ["K", "Level select"]] },
     "shadow":   { title: "Shadow Harvest", genre: "Light/Shadow Strategy",
                   file: "shadow-harvest/shadow_harvest.js",
                   share: "https://sprig.hackclub.com/share/4dvtOmgFRtMj7giObQSe",
+                  about: "Farm light-crystals while beasts hunt them down across 3 phases.",
+                  howto: ["Any key dismisses the help screen. WASD moves the farmer.",
+                          "Stand on a mature crop and press I to harvest. J drops a mirror that blocks beasts. K flashes (stuns all beasts, limited uses).",
+                          "Crops only mature in their matching light phase while its crystal is lit — harvest 3 of each kind to advance."],
                   controls: [["W A S D", "Move"], ["I", "Harvest"], ["J", "Place mirror"], ["K", "Flash (stun)"]] },
     "pixel":    { title: "Pixel Painter", genre: "Generative Art Sandbox",
                   file: "pixel-painter/pixel-painter.js",
                   share: "https://sprig.hackclub.com/share/XH9wwilFpX9G1ofmORpU",
+                  about: "Paint tiles and watch them come alive under cellular-automata rules.",
+                  howto: ["Any key starts. WASD moves the cursor, I/J/K/L stamps red, blue, green, yellow.",
+                          "Tiles spread to empty neighbors and lonely tiles fade — the art evolves on its own.",
+                          "You get 120 seconds. Score = painted tiles x colors used."],
                   controls: [["W A S D", "Cursor"], ["I", "Red"], ["J", "Blue"], ["K", "Green"], ["L", "Yellow"]] },
     "laser":    { title: "The Great Laser Pointer Heist", genre: "Stealth Puzzle",
                   file: "laser-pointer-heist/game.js",
                   share: "https://sprig.hackclub.com/share/dCbT6z5p0pomstLxg2Ft",
+                  about: "You are Garfield-X the meme cat, robbing 7 security zones for the red dot.",
+                  howto: ["J or W starts. WASD moves, J flips gravity (walk on ceilings!), K resets the zone.",
+                          "Grab every fish energy drive, dodge Dr. Stick's flashlight patrols, then steal the laser pointer.",
+                          "Getting spotted busts you back — plan routes around the patrols."],
                   controls: [["W A S D", "Move"], ["J", "Flip gravity"], ["K", "Reset level"]] },
   };
 
@@ -235,6 +268,9 @@
   document.getElementById("share").href = meta.share;
   document.getElementById("controls").innerHTML =
     meta.controls.map(([k, a]) => `<div><kbd>${k}</kbd> ${a}</div>`).join("");
+  document.getElementById("about").textContent = meta.about;
+  document.getElementById("howto").innerHTML =
+    meta.howto.map((line) => `<div style="margin-bottom:6px">${line}</div>`).join("");
 
   // On-screen pad: same 8 Sprig keys, dispatches to the canvas.
   window.__press = (key) => canvas.dispatchEvent(new KeyboardEvent("keydown", { key }));
