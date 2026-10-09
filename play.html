@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
 <title>Play — Sprig Games</title>
 <style>
   :root {
@@ -272,7 +273,7 @@
       "onInput", "afterInput", "getFirst", "getAll", "getTile", "getGrid", "addSprite",
       "clearTile", "clearText", "addText", "width", "height", "tilesWith", "playTune",
       "bitmap", "map", "color", "tune", "setTimeout", "setInterval", "clearTimeout", "clearInterval"];
-    new Function(...params, src)(...params.map((k) => api[k]));
+    new Function(...params, src)(...params.map((k) => api[k] ?? window[k]));
     log("GAME LOADED OK", "ok");
     window.__loaded = true;
     refocus();
