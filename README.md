@@ -31,9 +31,9 @@ This repository houses **7 complete, polished Sprig games** — each designed to
 
 ```bash
 # Example: Play SprigOS
-cat game.js | pbcopy  # macOS
+cat sprigos/game.js | pbcopy  # macOS
 # or
-type game.js | clip   # Windows
+type sprigos\game.js | clip   # Windows
 # Then paste in the editor and press RUN
 ```
 
@@ -45,7 +45,7 @@ npm install
 
 # Serve the standalone SprigOS preview
 npm start
-# → Opens http://localhost:8080/standalone.html
+# → Opens http://localhost:8080/sprigos/standalone.html
 ```
 
 ---
@@ -54,12 +54,19 @@ npm start
 
 ```
 sprig-games/
-├── game.js                      # 🌙 SprigOS — main entry
-├── shadow_harvest.js            # 🌱 Shadow Harvest
-├── pixel-painter.js             # 🎨 Pixel Painter
-├── index.html                   # 🌐 Landing page
-├── standalone.html              # 🖥️ SprigOS standalone preview (ESM)
+├── index.html                   # 🌐 Landing page (gallery)
 ├── package.json                 # 📦 NPM config (for local preview only)
+│
+├── sprigos/
+│   ├── game.js                  # 🌙 SprigOS — main entry (paste this)
+│   └── standalone.html          # 🖥️ SprigOS standalone preview (ESM)
+│
+├── shadow-harvest/
+│   └── shadow_harvest.js        # 🌱 Main game (paste this)
+│
+├── pixel-painter/
+│   └── pixel-painter.js         # 🎨 Main game (paste this)
+│
 │
 ├── arcana_ascent/
 │   ├── arcana_ascent.js         # 🃏 Main game (paste this)
@@ -89,7 +96,7 @@ sprig-games/
 
 ## 🎮 Game Details & Controls
 
-### 🌙 SprigOS (`game.js`)
+### 🌙 SprigOS (`sprigos/game.js`)
 ```
 W/S/A/D  — Navigate desktop / menus
 I        — Select / Open / Confirm
@@ -137,7 +144,7 @@ A/D      — Flip level in select screen
 
 ---
 
-### 🌱 Shadow Harvest (`shadow_harvest.js`)
+### 🌱 Shadow Harvest (`shadow-harvest/shadow_harvest.js`)
 ```
 WASD     — Move farmer
 I        — Harvest mature crop (stand on it)
@@ -148,7 +155,7 @@ K        — Flash (stun all beasts, 1 use/phase)
 
 ---
 
-### 🎨 Pixel Painter (`pixel-painter.js`)
+### 🎨 Pixel Painter (`pixel-painter/pixel-painter.js`)
 ```
 WASD     — Move cursor
 I        — Place Red
