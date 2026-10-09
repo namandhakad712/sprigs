@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Arcana Ascent — test harness</title>
+  <style>
+    body { background:#111; color:#eee; font-family:monospace; display:flex; gap:16px; padding:16px; }
+    #canvas { border:2px solid #444; image-rendering:pixelated; background:#000; }
+    #side { max-width:340px; }
+    #log { white-space:pre-wrap; height:300px; overflow:auto; background:#000; padding:8px; font-size:13px; border:1px solid #333; }
+    .err { color:#f55; } .ok { color:#5f5; }
+    button { font-family:monospace; margin:2px; }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="480" height="384" tabindex="0"></canvas>
+  <div id="side">
+    <div><b>KEYS</b></div>
+    <div id="buttons"></div>
+    <div id="log">loading…</div>
+  </div>
+
+  <script type="module">
+    import { webEngine } from "../node_modules/sprig/dist/web/index.js"
+
+    const canvas = document.getElementById("canvas")
+    const logEl = document.getElementById("log")
+    function log(msg, cls) {
+      const d = document.createElement("div")
+      if (cls) d.className = cls
+      d.textContent = msg
+      logEl.appendChild(d)
+      logEl.scrollTop = logEl.scrollHeight
+    }
+
+    window.addEventListener("error", ev => log("ERROR: " + ev.message, "err"))
+    window.addEventListener("unhandledrejection", ev => log("REJECT: " + ev.reason, "err"))
+
+    try {
+      // Fetch the game BEFORE constructing the engine: the engine's rAF
+      // loop exits permanently if its first frame runs before setMap, so
+      // there must be no await between webEngine() and the game's setMap.
+      const game = await fetch("./arcana_ascent.js").then(r => r.text())
+      const { api, state } = webEngine(canvas)
+      window.__api = api
+      window.__state = state
+      const probe = `
+;window.__probe = () => ({
+  screen, floor, pHp, pMaxHp, pBlk, energy, turn,
+  hand: hand.slice(), cursor, deck: deck.length,
+  draw: drawPile.length, disc: discard.length,
+  enemy: e ? { n: e.n, hp: e.hp, max: e.max, blk: e.blk, psn: e.psn } : null,
+  msg
+});`
+      const fn = new Function(...Object.keys(api), game + probe)
+      fn(...Object.values(api))
+      window.__screenProbe = () => window.__probe().screen
+      log("game loaded OK", "ok")
+
+      // key injection
+      window.__press = (key) => {
+        canvas.dispatchEvent(new KeyboardEvent("keydown", { key }))
+      }
+
+      for (const key of ["w", "a", "s", "d", "i", "j", "k", "l"]) {
+        const b = document.createElement("button")
+        b.textContent = key.toUpperCase()
+        b.onclick = () => { window.__press(key); canvas.focus() }
+        document.getElementById("buttons").appendChild(b)
+      }
+      canvas.focus()
+    } catch (err) {
+      log("LOAD ERROR: " + err.message + "\n" + err.stack, "err")
+    }
+  </script>
+</body>
+</html>

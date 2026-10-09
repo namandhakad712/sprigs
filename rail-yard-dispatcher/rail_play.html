@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>Rail Yard Dispatcher - Play</title>
+<style>body{background:#111;color:#eee;font-family:monospace;display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px}canvas{border:2px solid #444;image-rendering:pixelated}#log{background:#000;padding:8px;width:500px;white-space:pre-wrap;font-size:12px;min-height:60px}</style>
+</head>
+<body>
+<canvas width="500" height="400" id="c" tabindex="0"></canvas>
+<div id="log">boot...</div>
+<script type="module">
+import { webEngine } from "https://esm.sh/sprig@1/web";
+const canvas = document.getElementById("c");
+const logEl = document.getElementById("log");
+const log = (m) => { logEl.textContent += "\n" + m; };
+window.addEventListener("error", e => log("PAGEERROR: " + e.message));
+try {
+  // fetch game source FIRST so engine creation + eval happen in one task
+  // (webEngine's rAF loop dies if the first frame runs before setMap)
+  const src = await (await fetch("rail_dispatcher.js")).text();
+  log("game source fetched (" + src.length + " bytes)");
+  const game = webEngine(canvas);
+  window.__game = game;
+  const api = game.api;
+  const params = ["setLegend","setBackground","setMap","setSolids","setPushables",
+    "onInput","afterInput","getFirst","getAll","getTile","getGrid","addSprite",
+    "clearTile","clearText","addText","width","height","tilesWith","playTune",
+    "bitmap","map","color","tune"];
+  const args = params.map(k => api[k]);
+  new Function(...params, src)(...args);
+  log("GAME LOADED OK");
+  canvas.focus();
+} catch (e) {
+  log("ERROR: " + e.message);
+}
+</script>
+</body>
+</html>

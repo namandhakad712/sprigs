@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SprigOS — Standalone Preview</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0a0a1a; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; font-family: monospace; color: #f5d6a8; }
+    #game-container { border: 2px solid #00d4ff; border-radius: 8px; overflow: hidden; }
+    #status { margin-top: 1rem; color: #5c4033; font-size: 14px; text-align: center; }
+    #error { margin-top: 1rem; color: #e94560; font-size: 14px; text-align: center; display: none; white-space: pre-wrap; max-width: 600px; }
+  </style>
+</head>
+<body>
+  <div id="game-container"></div>
+  <div id="status">Loading SprigOS...</div>
+  <div id="error"></div>
+
+  <script type="module">
+    import { webEngine } from "https://esm.sh/sprig@1/web"
+
+    const canvas = document.createElement('canvas')
+    canvas.width = 500
+    canvas.height = 400
+    canvas.id = 'game-canvas'
+    document.getElementById('game-container').appendChild(canvas)
+
+    const game = webEngine(canvas)
+
+    function runGame(api) {
+      const { setLegend, setMap, setSolids, setBackground, onInput, addText, clearText, playTune, tune, color, bitmap, map } = api
+
+      const player = "p"
+      const wall = "w"
+      const floor = "f"
+
+      setLegend(
+        [floor, bitmap`2222 2222 2222 2222`],
+        [wall, bitmap`0000 0000 0000 0000`],
+        [player, bitmap`..22 ..22 ..22 ....`]
+      )
+
+      setMap(map`
+        wwwwffffww
+        wffffffffw
+        wffffffffw
+        wffffffffw
+        wffffffffw
+        wffffffffw
+        wffffffffw
+        wffffffffw
+        wffffffffw
+        wwwwffffww
+      `)
+
+      setSolids([wall])
+      setBackground(floor)
+
+      const sfxClick = tune`c4:1`
+      const sfxOpen = tune`c4:1 e4:1`
+      const sfxSuccess = tune`c4:1 e4:1 g4:2`
+      const sfxEnter = tune`c4:1 e4:1 g4:1 c5:2`
+      const sfxBack = tune`g4:1 c4:1`
+      const sfxHackFail = tune`a4:2 f4:2`
+
+      let screen = "desktop"
+      let cursor = 0
+      let hackCursor = 0
+      let hackPuzzle = 0
+      let hackWon = false
+      let hackAttempts = 0
+      let msg = ""
+      let msgTimer = 0
+
+      const puzzles = [
+        { q: "What is 7 * 8?", opts: ["54", "56", "58", "60"], ans: 1 },
+        { q: "Which key deletes the last char?", opts: ["Enter", "Space", "Backspace", "Tab"], ans: 2 },
+        { q: "What does CPU stand for?", opts: ["Central Proc Unit", "Computer Personal Unit", "Central Program Utility", "Core Proc Unit"], ans: 0 },
+        { q: "How many bits in a byte?", opts: ["4", "8", "16", "32"], ans: 1 },
+        { q: "What color is Sprig's Run button?", opts: ["Green", "Red", "Blue", "Yellow"], ans: 0 },
+      ]
+
+      function show(m, t) { msg = m; msgTimer = t || 60 }
+
+      function render() {
+        clearText()
+        if (screen === "desktop") {
+          addText("SPRIGOS v1.0", { x: 1, y: 0, color: color`7` })
+          addText("Desktop", { x: 1, y: 1, color: color`7` })
+          addText("----------", { x: 1, y: 2, color: color`C` })
+          addText(cursor === 0 ? "> Terminal" : "  Terminal", { x: 1, y: 3, color: cursor === 0 ? color`3` : color`7` })
+          addText(cursor === 1 ? "> Files" : "  Files", { x: 1, y: 4, color: cursor === 1 ? color`3` : color`7` })
+          addText(cursor === 2 ? "> Calculator" : "  Calculator", { x: 1, y: 5, color: cursor === 2 ? color`3` : color`7` })
+          addText(cursor === 3 ? "> Hack" : "  Hack", { x: 1, y: 6, color: cursor === 3 ? color`3` : color`7` })
+          addText("----------", { x: 1, y: 7, color: color`C` })
+          addText("W/S: Move  I: Select  K: Back  L: Restart", { x: 1, y: 8, color: color`C` })
+        } else if (screen === "terminal") {
+          addText("TERMINAL", { x: 1, y: 0, color: color`4` })
+          addText("----------", { x: 1, y: 1, color: color`4` })
+          const cmds = ["help", "ls", "cd", "open", "whoami", "date", "hack", "clear"]
+          cmds.forEach((c, i) => {
+            const sel = i === cursor
+            addText(sel ? "> " + c : "  " + c, { x: 1, y: 2 + i, color: sel ? color`2` : color`4` })
+          })
+          addText("----------", { x: 1, y: 10, color: color`4` })
+          addText("W/S: Select  I: Run  K: Back", { x: 1, y: 11, color: color`4` })
+        } else if (screen === "hack") {
+          addText("HACK TERMINAL", { x: 1, y: 0, color: color`3` })
+          addText("----------", { x: 1, y: 1, color: color`3` })
+          if (hackWon) {
+            addText("ACCESS GRANTED!", { x: 2, y: 3, color: color`4` })
+            addText("You hacked SprigOS!", { x: 2, y: 5, color: color`4` })
+            addText("Press L to restart", { x: 3, y: 7, color: color`2` })
+          } else {
+            const p = puzzles[hackPuzzle]
+            addText("Level " + (hackPuzzle + 1) + "/" + puzzles.length, { x: 1, y: 2, color: color`3` })
+            addText(p.q, { x: 1, y: 4, color: color`2` })
+            addText("Attempts: " + hackAttempts, { x: 1, y: 6, color: color`3` })
+            p.opts.forEach((o, i) => {
+              const sel = i === hackCursor
+              addText(sel ? "> " + o : "  " + o, { x: 1, y: 7 + i, color: sel ? color`3` : color`C` })
+            })
+            addText("W/S: Choose  I: Confirm  K: Back", { x: 1, y: 12, color: color`C` })
+          }
+        }
+        if (msg && msgTimer > 0) {
+          addText(msg, { x: 1, y: 13, color: color`3` })
+        }
+      }
+
+      onInput("w", () => {
+        if (screen === "desktop") { cursor = Math.min(3, cursor + 1) }
+        else if (screen === "terminal") { cursor = Math.min(7, cursor + 1) }
+        else if (screen === "hack" && !hackWon) { hackCursor = Math.min(3, hackCursor + 1) }
+        playTune(sfxClick)
+        render()
+      })
+
+      onInput("s", () => {
+        if (screen === "desktop") { cursor = Math.max(0, cursor - 1) }
+        else if (screen === "terminal") { cursor = Math.max(0, cursor - 1) }
+        else if (screen === "hack" && !hackWon) { hackCursor = Math.max(0, hackCursor - 1) }
+        playTune(sfxClick)
+        render()
+      })
+
+      onInput("a", () => {
+        if (screen === "desktop") { cursor = Math.max(0, cursor - 1) }
+        playTune(sfxClick)
+        render()
+      })
+
+      onInput("d", () => {
+        if (screen === "desktop") { cursor = Math.min(3, cursor + 1) }
+        playTune(sfxClick)
+        render()
+      })
+
+      onInput("i", () => {
+        if (screen === "desktop") {
+          if (cursor === 0) { screen = "terminal"; cursor = 0 }
+          else if (cursor === 1) { show("Files - use 'cd' in terminal", 60) }
+          else if (cursor === 2) { show("Calculator - use terminal 'calc'", 60) }
+          else if (cursor === 3) { screen = "hack"; hackCursor = 0 }
+          playTune(sfxOpen)
+          render()
+        } else if (screen === "terminal") {
+          const cmds = ["help", "ls", "cd", "open", "whoami", "date", "hack", "clear"]
+          execCmd(cmds[cursor])
+          render()
+        } else if (screen === "hack" && !hackWon) {
+          const p = puzzles[hackPuzzle]
+          if (hackCursor === p.ans) {
+            hackPuzzle++
+            hackCursor = 0
+            playTune(sfxSuccess)
+            if (hackPuzzle >= puzzles.length) {
+              hackWon = true
+              show("ACCESS GRANTED!", 120)
+            } else {
+              show("Correct! Next puzzle...", 60)
+            }
+          } else {
+            hackAttempts++
+            playTune(sfxHackFail)
+            if (hackAttempts >= 3) { show("Wrong! Try again.", 60); hackAttempts = 0 }
+            else show("Wrong! " + (3 - hackAttempts) + " tries left", 60)
+          }
+          render()
+        } else if (screen === "hack" && hackWon) {
+          hackPuzzle = 0; hackCursor = 0; hackWon = false; hackAttempts = 0; screen = "desktop"; cursor = 0
+          show("Restarted!", 40)
+          render()
+        }
+      })
+
+      onInput("k", () => {
+        if (screen === "hack") { screen = "desktop"; hackCursor = 0 }
+        else if (screen !== "desktop") { screen = "desktop" }
+        playTune(sfxBack)
+        render()
+      })
+
+      onInput("l", () => {
+        hackPuzzle = 0; hackCursor = 0; hackWon = false; hackAttempts = 0; screen = "desktop"; cursor = 0
+        show("Restarted!", 40)
+        render()
+      })
+
+      function execCmd(cmd) {
+        if (cmd === "help") {
+          clearText()
+          addText("Commands:", { x: 1, y: 2, color: color`4` })
+          addText("  help - this", { x: 1, y: 3, color: color`4` })
+          addText("  ls - list files", { x: 1, y: 4, color: color`4` })
+          addText("  cd - change dir", { x: 1, y: 5, color: color`4` })
+          addText("  open - open app", { x: 1, y: 6, color: color`4` })
+          addText("  whoami - user", { x: 1, y: 7, color: color`4` })
+          addText("  date - time", { x: 1, y: 8, color: color`4` })
+          addText("  hack - start hack", { x: 1, y: 9, color: color`4` })
+          addText("  clear - clear screen", { x: 1, y: 10, color: color`4` })
+        } else if (cmd === "ls") {
+          clearText()
+          addText("[D] Documents", { x: 1, y: 3, color: color`7` })
+          addText("[D] System", { x: 1, y: 4, color: color`7` })
+          addText("[D] hack_mainframe", { x: 1, y: 5, color: color`7` })
+        } else if (cmd === "cd") {
+          show("Changed to /", 40)
+        } else if (cmd === "open") {
+          show("Use desktop menu to open apps", 60)
+        } else if (cmd === "whoami") {
+          clearText()
+          addText("user@sprigOS", { x: 1, y: 3, color: color`4` })
+          addText("Access: GUEST", { x: 1, y: 4, color: color`4` })
+        } else if (cmd === "date") {
+          clearText()
+          addText("SprigOS Time: 2025-01-01", { x: 1, y: 3, color: color`4` })
+        } else if (cmd === "hack") {
+          screen = "hack"; hackCursor = 0
+          show("Hacking terminal opened!", 60)
+        } else if (cmd === "clear") {
+          show("Screen cleared", 40)
+        }
+        playTune(sfxEnter)
+      }
+
+      render()
+    }
+
+    try {
+      runGame(game.api)
+      document.getElementById('status').textContent = 'Game is running! Use W/A/S/D to navigate.'
+    } catch (e) {
+      document.getElementById('status').style.display = 'none'
+      const errEl = document.getElementById('error')
+      errEl.style.display = 'block'
+      errEl.textContent = 'Error: ' + e.message
+      console.error(e)
+    }
+  </script>
+</body>
+</html>

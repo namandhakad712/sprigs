@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>MIRRORSELF - Play</title>
+<style>
+body{background:#0b0b10;color:#eee;font-family:monospace;display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px}
+canvas{border:2px solid #333;image-rendering:pixelated;cursor:pointer}
+#log{background:#000;padding:8px;width:520px;white-space:pre-wrap;font-size:12px;min-height:40px;max-height:120px;overflow:auto}
+.hint{font-size:12px;color:#888}
+</style>
+</head>
+<body>
+<canvas width="520" height="408" id="c" tabindex="0"></canvas>
+<div id="log">boot...</div>
+<div class="hint">WASD step both bodies &middot; L undo &middot; I retry/next &middot; K level select &middot; (click the canvas first so it has keyboard focus)</div>
+<script type="module">
+import { webEngine } from "../node_modules/sprig/dist/web/index.js";
+const canvas = document.getElementById("c");
+const logEl = document.getElementById("log");
+const log = (m) => { logEl.textContent += "\n" + m; logEl.scrollTop = 1e9; };
+window.addEventListener("error", (e) => log("PAGEERROR: " + e.message));
+
+// KEYBOARD FOCUS: the engine only listens on the canvas. Grab focus
+// aggressively: on load, on every click anywhere, and on blur recovery.
+function refocus() { canvas.focus(); }
+document.addEventListener("click", refocus);
+canvas.addEventListener("blur", refocus);
+canvas.addEventListener("focus", () => log("keyboard focus: OK — controls live"));
+canvas.addEventListener("blur", () => log("keyboard focus: LOST — click the board to regain"));
+
+try {
+  let src;
+  try {
+    src = await (await fetch("mirrorself.js")).text();
+  } catch (e) {
+    log("ERROR: could not load mirrorself.js (" + e.message + ")");
+    log("If you opened this file by double-clicking, that blocks fetch. Serve the folder instead:");
+    log("    cd C:\\Projects\\SPRIG");
+    log("    python -m http.server 8080");
+    log("    open http://localhost:8080/mirrorself/play.html");
+    log("Or paste mirrorself.js into https://sprig.hackclub.com/ and hit RUN.");
+    throw e;
+  }
+  log("game source fetched (" + src.length + " bytes)");
+  const game = webEngine(canvas);
+  window.__game = game;
+  const api = game.api;
+  const params = ["setLegend","setBackground","setMap","setSolids","setPushables",
+    "onInput","afterInput","getFirst","getAll","getTile","getGrid","addSprite",
+    "clearTile","clearText","addText","width","height","tilesWith","playTune",
+    "bitmap","map","color","tune","setTimeout","setInterval","clearTimeout","clearInterval"];
+  const args = params.map((k) => api[k]);
+  new Function(...params, src)(...args);
+  log("GAME LOADED OK");
+  refocus();
+} catch (e) {
+  log("ERROR: " + e.message);
+}
+</script>
+</body>
+</html>

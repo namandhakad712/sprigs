@@ -1,0 +1,24 @@
+{
+  "name": "sprig-games-collection",
+  "version": "1.0.0",
+  "description": "A curated collection of 7 original games for the Sprig handheld console — SprigOS, Arcana Ascent, Rail Yard Dispatcher, MirrorSelf, Shadow Harvest, Pixel Painter, and Overload.",
+  "main": "game.js",
+  "scripts": {
+    "start": "python3 -m http.server 8080",
+    "test": "echo \"No tests — games are playtested on sprig.hackclub.com\""
+  },
+  "keywords": [
+    "sprig",
+    "hackclub",
+    "game",
+    "javascript",
+    "handheld",
+    "console",
+    "collection"
+  ],
+  "type": "commonjs",
+  "dependencies": {
+    "sprig": "^1.1.3"
+  },
+  "devDependencies": {}
+}

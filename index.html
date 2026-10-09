@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sprig Games Collection — 7 Original Games for the Sprig Console</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #0a0a1a;
+      font-family: 'Courier New', monospace;
+      color: #f5d6a8;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid #1a1a2e;
+    }
+    h1 {
+      color: #00d4ff;
+      font-size: 2.5rem;
+      letter-spacing: 4px;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+    }
+    .subtitle {
+      color: #5c4033;
+      font-size: 1rem;
+      letter-spacing: 2px;
+    }
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .game-card {
+      background: #16213e;
+      border: 1px solid #1a1a2e;
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .game-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #00d4ff, #e94560);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .game-card:hover {
+      border-color: #00d4ff;
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0, 212, 255, 0.15);
+    }
+    .game-card:hover::before {
+      opacity: 1;
+    }
+    .game-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    .game-title {
+      color: #00d4ff;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 0.3rem;
+      letter-spacing: 1px;
+    }
+    .game-genre {
+      color: #e94560;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 1rem;
+    }
+    .game-desc {
+      color: #8b7355;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+    .game-controls {
+      background: rgba(0, 212, 255, 0.05);
+      border-radius: 6px;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      font-size: 0.7rem;
+    }
+    .game-controls kbd {
+      background: #0a0a1a;
+      border: 1px solid #1a1a2e;
+      padding: 0.15rem 0.4rem;
+      border-radius: 3px;
+      color: #00d4ff;
+      font-family: inherit;
+      margin: 0 0.1rem;
+    }
+    .game-file {
+      color: #5c4033;
+      font-size: 0.7rem;
+      font-family: monospace;
+    }
+    .game-file code {
+      color: #e94560;
+    }
+    .cta {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid #1a1a2e;
+    }
+    .cta a {
+      display: inline-block;
+      padding: 1rem 2.5rem;
+      background: linear-gradient(135deg, #e94560, #c73652);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-family: inherit;
+      font-weight: bold;
+      letter-spacing: 2px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .cta a:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 30px rgba(233, 69, 96, 0.4);
+    }
+    .cta p {
+      margin-top: 1rem;
+      color: #5c4033;
+      font-size: 0.85rem;
+    }
+    @media (max-width: 600px) {
+      body { padding: 1rem; }
+      h1 { font-size: 1.8rem; }
+      .games-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🎮 Sprig Games Collection</h1>
+      <p class="subtitle">7 original games for the Hack Club Sprig handheld console</p>
+    </header>
+
+    <div class="games-grid">
+      <!-- SprigOS -->
+      <article class="game-card">
+        <span class="game-icon">🌙</span>
+        <h2 class="game-title">SprigOS</h2>
+        <span class="game-genre">OS Sim / Puzzle</span>
+        <p class="game-desc">A simulated operating system with desktop, terminal (8 commands), file browser, calculator, and a hack-the-mainframe mini-game. Navigate apps, solve puzzles, breach the mainframe.</p>
+        <div class="game-controls">
+          <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> Navigate &nbsp;
+          <kbd>I</kbd> Select &nbsp;
+          <kbd>K</kbd> Back &nbsp;
+          <kbd>L</kbd> Restart
+        </div>
+        <p class="game-file"><code>game.js</code></p>
+      </article>
+
+      <!-- Arcana Ascent -->
+      <article class="game-card">
+        <span class="game-icon">🃏</span>
+        <h2 class="game-title">Arcana Ascent</h2>
+        <span class="game-genre">Deckbuilding Roguelite</span>
+        <p class="game-desc">Climb a 5-floor tower. Defeat guardians, draft cards (Strike, Defend, Bash, Venom, Drain, Mend, Fire...), manage energy and block. Outlast the Lich in pure Slay-the-Spire energy.</p>
+        <div class="game-controls">
+          <kbd>W</kbd><kbd>S</kbd> Cursor &nbsp;
+          <kbd>A</kbd><kbd>D</kbd> Tabs &nbsp;
+          <kbd>I</kbd> Play/Confirm &nbsp;
+          <kbd>J</kbd> End Turn &nbsp;
+          <kbd>K</kbd> Deck/Skip &nbsp;
+          <kbd>L</kbd> Title
+        </div>
+        <p class="game-file"><code>arcana_ascent/arcana_ascent.js</code></p>
+      </article>
+
+      <!-- Rail Yard Dispatcher -->
+      <article class="game-card">
+        <span class="game-icon">🚂</span>
+        <h2 class="game-title">Rail Yard Dispatcher</h2>
+        <span class="game-genre">Real-Time Puzzle</span>
+        <p class="game-desc">Route color-coded trains to matching depots by flipping junction arrows. 3 escalating levels, 3 HP, real-time spawns. No clones, no sokoban — verified unique against 1,155 gallery games.</p>
+        <div class="game-controls">
+          <kbd>WASD</kbd> Hop cursor &nbsp;
+          <kbd>I</kbd>/<kbd>J</kbd> Rotate arrow &nbsp;
+          <kbd>K</kbd> Pause &nbsp;
+          <kbd>L</kbd> Restart
+        </div>
+        <p class="game-file"><code>rail-yard-dispatcher/rail_dispatcher.js</code></p>
+      </article>
+
+      <!-- MirrorSelf -->
+      <article class="game-card">
+        <span class="game-icon">🪞</span>
+        <h2 class="game-title">MirrorSelf</h2>
+        <span class="game-genre">Mirror Puzzle</span>
+        <p class="game-desc">One brain, two bodies. You move WASD; your twin mirrors you 180° around the center. The floor remembers every tile you've touched — step on your past and you die. 5 hand-crafted levels, 3 lives, 1 undo each.</p>
+        <div class="game-controls">
+          <kbd>WASD</kbd> Step both &nbsp;
+          <kbd>L</kbd> Undo (1×) &nbsp;
+          <kbd>I</kbd> Retry/Next &nbsp;
+          <kbd>K</kbd> Level Select
+        </div>
+        <p class="game-file"><code>mirrorself/mirrorself.js</code></p>
+      </article>
+
+      <!-- Shadow Harvest -->
+      <article class="game-card">
+        <span class="game-icon">🌱</span>
+        <h2 class="game-title">Shadow Harvest</h2>
+        <span class="game-genre">Light/Shadow Strategy</span>
+        <p class="game-desc">Farm crystals by growing crops in matching light phases. Place mirrors to block beasts, flash to stun them. 3 phases (Cyan → Magenta → Amber), dynamic crop spawns, crystal recovery mechanics.</p>
+        <div class="game-controls">
+          <kbd>WASD</kbd> Move &nbsp;
+          <kbd>I</kbd> Harvest &nbsp;
+          <kbd>J</kbd> Place Mirror &nbsp;
+          <kbd>K</kbd> Flash (stun)
+        </div>
+        <p class="game-file"><code>shadow_harvest.js</code></p>
+      </article>
+
+      <!-- Pixel Painter -->
+      <article class="game-card">
+        <span class="game-icon">🎨</span>
+        <h2 class="game-title">Pixel Painter</h2>
+        <span class="game-genre">Generative Art Sandbox</span>
+        <p class="game-desc">Place colored tiles and watch them evolve via cellular automata (Conway-like rules). 120-second sessions. Score = tile count × unique colors. Pure creative chaos.</p>
+        <div class="game-controls">
+          <kbd>WASD</kbd> Move cursor &nbsp;
+          <kbd>I</kbd> Red &nbsp;
+          <kbd>J</kbd> Blue &nbsp;
+          <kbd>K</kbd> Green &nbsp;
+          <kbd>L</kbd> Yellow
+        </div>
+        <p class="game-file"><code>pixel-painter.js</code></p>
+      </article>
+
+      <!-- Overload -->
+      <article class="game-card">
+        <span class="game-icon">⚡</span>
+        <h2 class="game-title">Overload</h2>
+        <span class="game-genre">Sensory Dropper</span>
+        <p class="game-desc">Fall down an infinite shaft while the game fights your senses. 9 levels, 9 disorientation effects: sway, shake, breathe, mirror, invert, strobe, palette, ghost, static. Endless depth, maximum chaos.</p>
+        <div class="game-controls">
+          <kbd>A</kbd><kbd>D</kbd> Steer &nbsp;
+          <kbd>W</kbd> Brake (½×) &nbsp;
+          <kbd>S</kbd> Dive (2×) &nbsp;
+          <kbd>I</kbd> Pause &nbsp;
+          <kbd>J</kbd> Start/Retry
+        </div>
+        <p class="game-file"><code>overload/game.js</code></p>
+      </article>
+    </div>
+
+    <div class="cta">
+      <a href="https://sprig.hackclub.com/editor" target="_blank">Open Sprig Editor →</a>
+      <p>Copy any <code>.js</code> file above → Paste in editor → Hit RUN ▶️</p>
+    </div>
+  </div>
+</body>
+</html>
