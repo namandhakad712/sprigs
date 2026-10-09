@@ -113,7 +113,7 @@ L        — Restart (after win or crash)
 
 ### 🃏 Arcana Ascent (`arcana_ascent/arcana_ascent.js`)
 
-![Arcana Ascent screenshot](arcana_ascent/arcana_title.png)
+![Arcana Ascent screenshot](arcana_ascent/screenshot.png)
 
 [▶️ Play on Sprig](https://sprig.hackclub.com/share/2nz3NPD0nm5VvfpySjln)
 
@@ -132,7 +132,7 @@ L        — Back to title
 
 ### 🚂 Rail Yard Dispatcher (`rail-yard-dispatcher/rail_dispatcher.js`)
 
-![Rail Yard Dispatcher screenshot](rail-yard-dispatcher/thumbnail.png)
+![Rail Yard Dispatcher screenshot](rail-yard-dispatcher/screenshot.png)
 
 [▶️ Play on Sprig](https://sprig.hackclub.com/share/0P2SdWjEwyQ1y0DJ7VnR)
 

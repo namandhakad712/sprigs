@@ -1,274 +1,272 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sprig Games Collection — 7 Original Games for the Sprig Console</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      background: #0a0a1a;
-      font-family: 'Courier New', monospace;
-      color: #f5d6a8;
-      min-height: 100vh;
-      padding: 2rem;
-    }
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-    }
-    header {
-      text-align: center;
-      margin-bottom: 3rem;
-      padding-bottom: 2rem;
-      border-bottom: 1px solid #1a1a2e;
-    }
-    h1 {
-      color: #00d4ff;
-      font-size: 2.5rem;
-      letter-spacing: 4px;
-      margin-bottom: 0.5rem;
-      text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
-    }
-    .subtitle {
-      color: #5c4033;
-      font-size: 1rem;
-      letter-spacing: 2px;
-    }
-    .games-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-    }
-    .game-card {
-      background: #16213e;
-      border: 1px solid #1a1a2e;
-      border-radius: 12px;
-      padding: 1.5rem;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-    .game-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, #00d4ff, #e94560);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .game-card:hover {
-      border-color: #00d4ff;
-      transform: translateY(-4px);
-      box-shadow: 0 12px 40px rgba(0, 212, 255, 0.15);
-    }
-    .game-card:hover::before {
-      opacity: 1;
-    }
-    .game-icon {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-      display: block;
-    }
-    .game-title {
-      color: #00d4ff;
-      font-size: 1.2rem;
-      font-weight: bold;
-      margin-bottom: 0.3rem;
-      letter-spacing: 1px;
-    }
-    .game-genre {
-      color: #e94560;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      margin-bottom: 1rem;
-    }
-    .game-desc {
-      color: #8b7355;
-      font-size: 0.85rem;
-      line-height: 1.6;
-      margin-bottom: 1rem;
-    }
-    .game-controls {
-      background: rgba(0, 212, 255, 0.05);
-      border-radius: 6px;
-      padding: 0.75rem;
-      margin-bottom: 1rem;
-      font-size: 0.7rem;
-    }
-    .game-controls kbd {
-      background: #0a0a1a;
-      border: 1px solid #1a1a2e;
-      padding: 0.15rem 0.4rem;
-      border-radius: 3px;
-      color: #00d4ff;
-      font-family: inherit;
-      margin: 0 0.1rem;
-    }
-    .game-file {
-      color: #5c4033;
-      font-size: 0.7rem;
-      font-family: monospace;
-    }
-    .game-file code {
-      color: #e94560;
-    }
-    .cta {
-      text-align: center;
-      margin-top: 3rem;
-      padding-top: 2rem;
-      border-top: 1px solid #1a1a2e;
-    }
-    .cta a {
-      display: inline-block;
-      padding: 1rem 2.5rem;
-      background: linear-gradient(135deg, #e94560, #c73652);
-      color: #fff;
-      text-decoration: none;
-      border-radius: 8px;
-      font-family: inherit;
-      font-weight: bold;
-      letter-spacing: 2px;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .cta a:hover {
-      transform: scale(1.02);
-      box-shadow: 0 8px 30px rgba(233, 69, 96, 0.4);
-    }
-    .cta p {
-      margin-top: 1rem;
-      color: #5c4033;
-      font-size: 0.85rem;
-    }
-    @media (max-width: 600px) {
-      body { padding: 1rem; }
-      h1 { font-size: 1.8rem; }
-      .games-grid { grid-template-columns: 1fr; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sprig Games Collection — 7 Original Games</title>
+<style>
+  :root {
+    --paper: #FAFED7;
+    --ink: #14201C;
+    --green: #078969;
+    --green-dark: #0B3D2E;
+    --red: #E03131;
+    --card: #FFFDF0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--paper);
+    background-image: radial-gradient(#14201c22 1px, transparent 1px);
+    background-size: 22px 22px;
+    color: var(--ink);
+    font-family: ui-monospace, "Cascadia Mono", "Fira Mono", Menlo, Consolas, monospace;
+    min-height: 100vh;
+    padding: 0 0 40px;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+  header {
+    border-bottom: 2px solid var(--ink);
+    background: var(--card);
+    padding: 36px 0 28px;
+    margin-bottom: 28px;
+  }
+  header h1 {
+    font-size: clamp(28px, 5vw, 52px);
+    letter-spacing: 2px;
+    font-weight: 800;
+  }
+  header h1 .dino { color: var(--green); }
+  .sub { margin-top: 10px; font-size: 14px; line-height: 1.7; max-width: 640px; }
+  .badges { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+  .badge {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    border: 2px solid var(--ink);
+    padding: 5px 12px;
+    background: #fff;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .badge.solid { background: var(--green); color: #fff; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 22px;
+  }
+  .card {
+    background: var(--card);
+    border: 2px solid var(--ink);
+    box-shadow: 5px 5px 0 var(--ink);
+    display: flex;
+    flex-direction: column;
+  }
+  .shot {
+    border-bottom: 2px solid var(--ink);
+    background: #000;
+    aspect-ratio: 5 / 4;
+    overflow: hidden;
+    position: relative;
+  }
+  .shot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    image-rendering: pixelated;
+    display: block;
+  }
+  .shot.missing {
+    background: repeating-linear-gradient(45deg, #101915, #101915 12px, #182420 12px, #182420 24px);
+  }
+  .shot.missing::after {
+    content: "SCREENSHOT COMING SOON";
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--paper);
+    font-size: 12px;
+    letter-spacing: 2px;
+    opacity: 0.85;
+  }
+  .body { padding: 16px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .row { display: flex; align-items: center; gap: 10px; }
+  .icon { font-size: 26px; }
+  h2 { font-size: 18px; letter-spacing: 0.5px; }
+  .genre {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 4px 9px;
+    display: inline-block;
+    align-self: flex-start;
+  }
+  .desc { font-size: 13px; line-height: 1.7; }
+  .keys { font-size: 12px; line-height: 2.1; background: #fff; border: 2px dashed var(--ink); padding: 8px 10px; }
+  kbd {
+    display: inline-block;
+    min-width: 24px;
+    text-align: center;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 2px 6px;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    margin-right: 2px;
+  }
+  .file { font-size: 11px; opacity: 0.75; }
+  .file code { background: var(--ink); color: var(--paper); padding: 1px 6px; }
+  .btns { display: flex; gap: 10px; margin-top: auto; padding-top: 6px; }
+  .btns a {
+    flex: 1;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 1px;
+    border: 2px solid var(--ink);
+    padding: 10px 0;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .btns a:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--ink); }
+  .btns .play { background: var(--green); color: #fff; }
+  .btns .share { background: #fff; color: var(--ink); }
+  .howto {
+    margin-top: 28px;
+    background: var(--ink);
+    color: var(--paper);
+    border: 2px solid var(--ink);
+    box-shadow: 5px 5px 0 #14201c44;
+    padding: 20px;
+  }
+  .howto h2 { margin-bottom: 12px; letter-spacing: 1px; }
+  .howto ol { margin-left: 20px; font-size: 13px; line-height: 2; }
+  .howto code { background: var(--green-dark); padding: 1px 7px; }
+  .howto a { color: #7fd6b2; font-weight: 700; }
+  footer { margin-top: 24px; font-size: 12px; display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+  footer a { color: var(--green-dark); font-weight: 700; }
+</style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>🎮 Sprig Games Collection</h1>
-      <p class="subtitle">7 original games for the Hack Club Sprig handheld console</p>
-    </header>
-
-    <div class="games-grid">
-      <!-- SprigOS -->
-      <article class="game-card">
-        <span class="game-icon">🌙</span>
-        <h2 class="game-title">SprigOS</h2>
-        <span class="game-genre">OS Sim / Puzzle</span>
-        <p class="game-desc">A simulated operating system with desktop, terminal (8 commands), file browser, calculator, and a hack-the-mainframe mini-game. Navigate apps, solve puzzles, breach the mainframe.</p>
-        <div class="game-controls">
-          <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> Navigate &nbsp;
-          <kbd>I</kbd> Select &nbsp;
-          <kbd>K</kbd> Back &nbsp;
-          <kbd>L</kbd> Restart
-        </div>
-        <p class="game-file"><code>sprigos/game.js</code> · <a href="https://sprig.hackclub.com/share/ANNlTxgIrId3kEl6fydN" target="_blank">Play ▶️</a></p>
-      </article>
-
-      <!-- Arcana Ascent -->
-      <article class="game-card">
-        <span class="game-icon">🃏</span>
-        <h2 class="game-title">Arcana Ascent</h2>
-        <span class="game-genre">Deckbuilding Roguelite</span>
-        <p class="game-desc">Climb a 5-floor tower. Defeat guardians, draft cards (Strike, Defend, Bash, Venom, Drain, Mend, Fire...), manage energy and block. Outlast the Lich in pure Slay-the-Spire energy.</p>
-        <div class="game-controls">
-          <kbd>W</kbd><kbd>S</kbd> Cursor &nbsp;
-          <kbd>A</kbd><kbd>D</kbd> Tabs &nbsp;
-          <kbd>I</kbd> Play/Confirm &nbsp;
-          <kbd>J</kbd> End Turn &nbsp;
-          <kbd>K</kbd> Deck/Skip &nbsp;
-          <kbd>L</kbd> Title
-        </div>
-        <p class="game-file"><code>arcana_ascent/arcana_ascent.js</code> · <a href="https://sprig.hackclub.com/share/2nz3NPD0nm5VvfpySjln" target="_blank">Play ▶️</a></p>
-      </article>
-
-      <!-- Rail Yard Dispatcher -->
-      <article class="game-card">
-        <span class="game-icon">🚂</span>
-        <h2 class="game-title">Rail Yard Dispatcher</h2>
-        <span class="game-genre">Real-Time Puzzle</span>
-        <p class="game-desc">Route color-coded trains to matching depots by flipping junction arrows. 3 escalating levels, 3 HP, real-time spawns. No clones, no sokoban — verified unique against 1,155 gallery games.</p>
-        <div class="game-controls">
-          <kbd>WASD</kbd> Hop cursor &nbsp;
-          <kbd>I</kbd>/<kbd>J</kbd> Rotate arrow &nbsp;
-          <kbd>K</kbd> Pause &nbsp;
-          <kbd>L</kbd> Restart
-        </div>
-        <p class="game-file"><code>rail-yard-dispatcher/rail_dispatcher.js</code> · <a href="https://sprig.hackclub.com/share/0P2SdWjEwyQ1y0DJ7VnR" target="_blank">Play ▶️</a></p>
-      </article>
-
-      <!-- MirrorSelf -->
-      <article class="game-card">
-        <span class="game-icon">🪞</span>
-        <h2 class="game-title">MirrorSelf</h2>
-        <span class="game-genre">Mirror Puzzle</span>
-        <p class="game-desc">One brain, two bodies. You move WASD; your twin mirrors you 180° around the center. The floor remembers every tile you've touched — step on your past and you die. 5 hand-crafted levels, 3 lives, 1 undo each.</p>
-        <div class="game-controls">
-          <kbd>WASD</kbd> Step both &nbsp;
-          <kbd>L</kbd> Undo (1×) &nbsp;
-          <kbd>I</kbd> Retry/Next &nbsp;
-          <kbd>K</kbd> Level Select
-        </div>
-        <p class="game-file"><code>mirrorself/mirrorself.js</code> · <a href="https://sprig.hackclub.com/share/UTktIABTRpOXN3uuxV6V" target="_blank">Play ▶️</a></p>
-      </article>
-
-      <!-- Shadow Harvest -->
-      <article class="game-card">
-        <span class="game-icon">🌱</span>
-        <h2 class="game-title">Shadow Harvest</h2>
-        <span class="game-genre">Light/Shadow Strategy</span>
-        <p class="game-desc">Farm crystals by growing crops in matching light phases. Place mirrors to block beasts, flash to stun them. 3 phases (Cyan → Magenta → Amber), dynamic crop spawns, crystal recovery mechanics.</p>
-        <div class="game-controls">
-          <kbd>WASD</kbd> Move &nbsp;
-          <kbd>I</kbd> Harvest &nbsp;
-          <kbd>J</kbd> Place Mirror &nbsp;
-          <kbd>K</kbd> Flash (stun)
-        </div>
-        <p class="game-file"><code>shadow-harvest/shadow_harvest.js</code> · <a href="https://sprig.hackclub.com/share/4dvtOmgFRtMj7giObQSe" target="_blank">Play ▶️</a></p>
-      </article>
-
-      <!-- Pixel Painter -->
-      <article class="game-card">
-        <span class="game-icon">🎨</span>
-        <h2 class="game-title">Pixel Painter</h2>
-        <span class="game-genre">Generative Art Sandbox</span>
-        <p class="game-desc">Place colored tiles and watch them evolve via cellular automata (Conway-like rules). 120-second sessions. Score = tile count × unique colors. Pure creative chaos.</p>
-        <div class="game-controls">
-          <kbd>WASD</kbd> Move cursor &nbsp;
-          <kbd>I</kbd> Red &nbsp;
-          <kbd>J</kbd> Blue &nbsp;
-          <kbd>K</kbd> Green &nbsp;
-          <kbd>L</kbd> Yellow
-        </div>
-        <p class="game-file"><code>pixel-painter/pixel-painter.js</code> · <a href="https://sprig.hackclub.com/share/XH9wwilFpX9G1ofmORpU" target="_blank">Play ▶️</a></p>
-      </article>
-
-      <!-- The Great Laser Pointer Heist -->
-      <article class="game-card">
-        <span class="game-icon">🔦</span>
-        <h2 class="game-title">The Great Laser Pointer Heist</h2>
-        <span class="game-genre">Stealth Puzzle</span>
-        <p class="game-desc">Play Garfield-X the meme cat! Flip gravity, dodge Dr. Stick's flashlight patrols, grab all fish energy drives, and steal the legendary red laser pointer across 7 security zones.</p>
-        <div class="game-controls">
-          <kbd>WASD</kbd> Move &nbsp;
-          <kbd>J</kbd> Flip gravity &nbsp;
-          <kbd>K</kbd> Reset level
-        </div>
-        <p class="game-file"><code>laser-pointer-heist/game.js</code> · <a href="https://sprig.hackclub.com/share/dCbT6z5p0pomstLxg2Ft" target="_blank">Play ▶️</a></p>
-      </article>
-    </div>
-
-    <div class="cta">
-      <a href="https://sprig.hackclub.com/editor" target="_blank">Open Sprig Editor →</a>
-      <p>Copy any <code>.js</code> file above → Paste in editor → Hit RUN ▶️</p>
+<header>
+  <div class="wrap">
+    <h1><span class="dino">&#9646;</span> SPRIG GAMES</h1>
+    <p class="sub">Seven original games for the Hack Club Sprig handheld. Play them right here in your
+    browser, or copy any <b>.js</b> into the Sprig editor and run it on hardware.</p>
+    <div class="badges">
+      <span class="badge solid">7 GAMES</span>
+      <span class="badge">PLAYABLE IN BROWSER</span>
+      <span class="badge">160 &times; 128</span>
     </div>
   </div>
+</header>
+
+<div class="wrap">
+  <div class="grid">
+
+    <article class="card">
+      <div class="shot"><img src="sprigos/screenshot.png" alt="SprigOS screenshot" loading="lazy" onerror="this.closest('.shot').classList.add('missing');this.remove()"></div>
+      <div class="body">
+        <div class="row"><span class="icon">&#127769;</span><h2>SprigOS</h2></div>
+        <span class="genre">OS Sim / Puzzle</span>
+        <p class="desc">A tiny operating system: desktop, terminal with 8 commands, file browser, calculator, and a hack-the-mainframe mini-game.</p>
+        <p class="keys"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> navigate &nbsp;<kbd>I</kbd> select &nbsp;<kbd>K</kbd> back &nbsp;<kbd>L</kbd> restart</p>
+        <p class="file"><code>sprigos/game.js</code></p>
+        <div class="btns"><a class="play" href="play.html?game=sprigos">PLAY</a><a class="share" href="https://sprig.hackclub.com/share/ANNlTxgIrId3kEl6fydN" target="_blank" rel="noopener">SPRIG &#8599;</a></div>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="shot"><img src="arcana_ascent/screenshot.png" alt="Arcana Ascent screenshot" loading="lazy" onerror="this.closest('.shot').classList.add('missing');this.remove()"></div>
+      <div class="body">
+        <div class="row"><span class="icon">&#127183;</span><h2>Arcana Ascent</h2></div>
+        <span class="genre">Deckbuilding Roguelite</span>
+        <p class="desc">Climb a 5-floor tower. Draft cards after every guardian — Strike, Venom, Drain, Mend — and outlast the Lich.</p>
+        <p class="keys"><kbd>W</kbd><kbd>S</kbd> cursor &nbsp;<kbd>A</kbd><kbd>D</kbd> tabs &nbsp;<kbd>I</kbd> play &nbsp;<kbd>J</kbd> end turn &nbsp;<kbd>K</kbd> deck &nbsp;<kbd>L</kbd> title</p>
+        <p class="file"><code>arcana_ascent/arcana_ascent.js</code></p>
+        <div class="btns"><a class="play" href="play.html?game=arcana">PLAY</a><a class="share" href="https://sprig.hackclub.com/share/2nz3NPD0nm5VvfpySjln" target="_blank" rel="noopener">SPRIG &#8599;</a></div>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="shot"><img src="rail-yard-dispatcher/screenshot.png" alt="Rail Yard Dispatcher screenshot" loading="lazy" onerror="this.closest('.shot').classList.add('missing');this.remove()"></div>
+      <div class="body">
+        <div class="row"><span class="icon">&#128642;</span><h2>Rail Yard Dispatcher</h2></div>
+        <span class="genre">Real-Time Puzzle</span>
+        <p class="desc">Route speeding color-coded trains to matching depots by flipping junction arrows. 3 levels, 3 HP, no pauses.</p>
+        <p class="keys"><kbd>WASD</kbd> hop cursor &nbsp;<kbd>I</kbd>/<kbd>J</kbd> rotate &nbsp;<kbd>K</kbd> pause &nbsp;<kbd>L</kbd> restart</p>
+        <p class="file"><code>rail-yard-dispatcher/rail_dispatcher.js</code></p>
+        <div class="btns"><a class="play" href="play.html?game=rail">PLAY</a><a class="share" href="https://sprig.hackclub.com/share/0P2SdWjEwyQ1y0DJ7VnR" target="_blank" rel="noopener">SPRIG &#8599;</a></div>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="shot"><img src="mirrorself/screenshot.png" alt="MirrorSelf screenshot" loading="lazy" onerror="this.closest('.shot').classList.add('missing');this.remove()"></div>
+      <div class="body">
+        <div class="row"><span class="icon">&#128083;</span><h2>MirrorSelf</h2></div>
+        <span class="genre">Mirror Puzzle</span>
+        <p class="desc">One brain, two bodies. Your twin mirrors you 180&deg; — and the floor remembers every tile. Step on your past and you die. 5 levels.</p>
+        <p class="keys"><kbd>WASD</kbd> step both &nbsp;<kbd>L</kbd> undo &nbsp;<kbd>I</kbd> retry &nbsp;<kbd>K</kbd> levels</p>
+        <p class="file"><code>mirrorself/mirrorself.js</code></p>
+        <div class="btns"><a class="play" href="play.html?game=mirror">PLAY</a><a class="share" href="https://sprig.hackclub.com/share/UTktIABTRpOXN3uuxV6V" target="_blank" rel="noopener">SPRIG &#8599;</a></div>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="shot"><img src="shadow-harvest/screenshot.png" alt="Shadow Harvest screenshot" loading="lazy" onerror="this.closest('.shot').classList.add('missing');this.remove()"></div>
+      <div class="body">
+        <div class="row"><span class="icon">&#127793;</span><h2>Shadow Harvest</h2></div>
+        <span class="genre">Light/Shadow Strategy</span>
+        <p class="desc">Grow crops in matching light phases, shield crystals with mirrors, flash-stun the beasts. 3 phases, shifting light.</p>
+        <p class="keys"><kbd>WASD</kbd> move &nbsp;<kbd>I</kbd> harvest &nbsp;<kbd>J</kbd> mirror &nbsp;<kbd>K</kbd> flash</p>
+        <p class="file"><code>shadow-harvest/shadow_harvest.js</code></p>
+        <div class="btns"><a class="play" href="play.html?game=shadow">PLAY</a><a class="share" href="https://sprig.hackclub.com/share/4dvtOmgFRtMj7giObQSe" target="_blank" rel="noopener">SPRIG &#8599;</a></div>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="shot"><img src="pixel-painter/screenshot.png" alt="Pixel Painter screenshot" loading="lazy" onerror="this.closest('.shot').classList.add('missing');this.remove()"></div>
+      <div class="body">
+        <div class="row"><span class="icon">&#127912;</span><h2>Pixel Painter</h2></div>
+        <span class="genre">Generative Art Sandbox</span>
+        <p class="desc">Place colored tiles and watch them evolve under cellular-automata rules. 120 seconds — score is tiles &times; colors.</p>
+        <p class="keys"><kbd>WASD</kbd> cursor &nbsp;<kbd>I</kbd> red &nbsp;<kbd>J</kbd> blue &nbsp;<kbd>K</kbd> green &nbsp;<kbd>L</kbd> yellow</p>
+        <p class="file"><code>pixel-painter/pixel-painter.js</code></p>
+        <div class="btns"><a class="play" href="play.html?game=pixel">PLAY</a><a class="share" href="https://sprig.hackclub.com/share/XH9wwilFpX9G1ofmORpU" target="_blank" rel="noopener">SPRIG &#8599;</a></div>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="shot"><img src="laser-pointer-heist/screenshot.png" alt="The Great Laser Pointer Heist screenshot" loading="lazy" onerror="this.closest('.shot').classList.add('missing');this.remove()"></div>
+      <div class="body">
+        <div class="row"><span class="icon">&#128294;</span><h2>The Great Laser Pointer Heist</h2></div>
+        <span class="genre">Stealth Puzzle</span>
+        <p class="desc">Garfield-X the meme cat flips gravity, dodges flashlight patrols, grabs fish drives, and steals the red dot. 7 zones.</p>
+        <p class="keys"><kbd>WASD</kbd> move &nbsp;<kbd>J</kbd> flip gravity &nbsp;<kbd>K</kbd> reset level</p>
+        <p class="file"><code>laser-pointer-heist/game.js</code></p>
+        <div class="btns"><a class="play" href="play.html?game=laser">PLAY</a><a class="share" href="https://sprig.hackclub.com/share/dCbT6z5p0pomstLxg2Ft" target="_blank" rel="noopener">SPRIG &#8599;</a></div>
+      </div>
+    </article>
+
+  </div>
+
+  <section class="howto">
+    <h2>HOW TO PLAY</h2>
+    <ol>
+      <li><b>Here:</b> hit PLAY on any card — keyboard required (WASD + I/J/K/L).</li>
+      <li><b>Hardware:</b> open the <a href="https://sprig.hackclub.com/editor" target="_blank" rel="noopener">Sprig editor</a>, paste the <code>.js</code> file, press RUN.</li>
+      <li><b>Touch:</b> every play page has an on-screen button pad.</li>
+    </ol>
+  </section>
+
+  <footer>
+    <span>SPRIG GAMES COLLECTION — MIT</span>
+    <span>Built for <a href="https://sprig.hackclub.com/" target="_blank" rel="noopener">Sprig</a> + <a href="https://hackclub.com/" target="_blank" rel="noopener">Hack Club</a></span>
+  </footer>
+</div>
 </body>
 </html>

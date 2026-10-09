@@ -1,0 +1,48 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - link "← ALL GAMES" [ref=e3] [cursor=pointer]:
+      - /url: ./
+    - generic [ref=e4]: SPRIGOS
+    - generic [ref=e5]: OS Sim / Puzzle
+    - link "OPEN IN SPRIG ↗" [ref=e6] [cursor=pointer]:
+      - /url: https://sprig.hackclub.com/share/ANNlTxgIrId3kEl6fydN
+  - main [ref=e7]:
+    - generic [ref=e9] [cursor=pointer]
+    - generic [ref=e10]:
+      - generic [ref=e11]:
+        - heading "Controls" [level=3] [ref=e12]
+        - generic [ref=e13]:
+          - generic [ref=e14]:
+            - generic [ref=e15]: W S A D
+            - text: Navigate
+          - generic [ref=e16]:
+            - generic [ref=e17]: I
+            - text: Select
+          - generic [ref=e18]:
+            - generic [ref=e19]: K
+            - text: Back
+          - generic [ref=e20]:
+            - generic [ref=e21]: L
+            - text: Restart
+      - generic [ref=e22]:
+        - heading "Touch / Mouse Pad" [level=3] [ref=e23]
+        - generic [ref=e24]:
+          - button "W" [ref=e25] [cursor=pointer]
+          - button "A" [ref=e26] [cursor=pointer]
+          - button "S" [ref=e27] [cursor=pointer]
+          - button "D" [ref=e28] [cursor=pointer]
+          - button "I" [ref=e29] [cursor=pointer]
+          - button "J" [ref=e30] [cursor=pointer]
+          - button "K" [ref=e31] [cursor=pointer]
+          - button "L" [ref=e32] [cursor=pointer]
+        - paragraph [ref=e33]: "Tip: click the screen once so it holds keyboard focus, then use WASD + I/J/K/L."
+      - generic [ref=e34]:
+        - heading "Status" [level=3] [ref=e35]
+        - generic [ref=e36]: boot…
+  - contentinfo [ref=e37]:
+    - generic [ref=e38]: SPRIG GAMES COLLECTION
+    - generic [ref=e39]:
+      - text: Paste any .js into the
+      - link "Sprig editor" [ref=e40] [cursor=pointer]:
+        - /url: https://sprig.hackclub.com/editor
+      - text: to play on hardware.
