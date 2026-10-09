@@ -1,6 +1,6 @@
 /*
 @title: Railyard Dispatcher
-@author: namandhakad712
+@author: thisisnaman
 @description: Route speeding color-coded trains to matching depots by flipping junction arrows. 3 levels, 3 HP, real-time.
 @tags: ['strategy', 'puzzle', 'real-time']
 @addedOn: 2026-10-08

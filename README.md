@@ -8,15 +8,15 @@
 
 This repository houses **7 complete, polished Sprig games** — each designed to be copied straight into the [Sprig Editor](https://sprig.hackclub.com/editor) and played instantly on the web or on the physical **Sprig console**.
 
-| Game | Genre | Description |
-|------|-------|-------------|
-| 🌙 **SprigOS** | OS Sim / Puzzle | A simulated operating system: desktop, terminal, file browser, calculator, and a hack-the-mainframe mini-game. |
-| 🃏 **Arcana Ascent** | Deckbuilding Roguelite | Climb a 5-floor tower, draft cards after each guardian, outlast the Lich. Strikes, blocks, poison, drain, heal — pure STS energy in 160×128. |
-| 🚂 **Rail Yard Dispatcher** | Real-Time Puzzle | Route color-coded trains to matching depots by flipping junction arrows. 3 levels, escalating speed, 3 HP, zero clones. |
-| 🪞 **MirrorSelf** | Mirror Puzzle | One brain, two bodies. You move; your twin mirrors you 180°. The floor remembers every tile you've touched — step on your past and you die. 5 hand-crafted levels. |
-| 🌱 **Shadow Harvest** | Light/Shadow Strategy | Farm crystals by growing crops in matching light phases. Place mirrors to block beasts, flash to stun them. 3 phases, dynamic crop spawns. |
-| 🎨 **Pixel Painter** | Generative Art Sandbox | Place colored tiles and watch them evolve via cellular automata rules. 120-second sessions, score by diversity × coverage. |
-| ⚡ **Overload** | Sensory Dropper | Fall down an infinite shaft dodging hazards while the game *fights your senses* — sway, shake, breathe, mirror, invert, strobe, palette, ghost, static. 9 levels, 9 effects, endless depth. |
+| Game | Genre | Description | Play |
+|------|-------|-------------|------|
+| 🌙 **SprigOS** | OS Sim / Puzzle | A simulated operating system: desktop, terminal, file browser, calculator, and a hack-the-mainframe mini-game. | [Play ▶️](https://sprig.hackclub.com/share/ANNlTxgIrId3kEl6fydN) |
+| 🃏 **Arcana Ascent** | Deckbuilding Roguelite | Climb a 5-floor tower, draft cards after each guardian, outlast the Lich. Strikes, blocks, poison, drain, heal — pure STS energy in 160×128. | [Play ▶️](https://sprig.hackclub.com/share/2nz3NPD0nm5VvfpySjln) |
+| 🚂 **Rail Yard Dispatcher** | Real-Time Puzzle | Route color-coded trains to matching depots by flipping junction arrows. 3 levels, escalating speed, 3 HP, zero clones. | [Play ▶️](https://sprig.hackclub.com/share/0P2SdWjEwyQ1y0DJ7VnR) |
+| 🪞 **MirrorSelf** | Mirror Puzzle | One brain, two bodies. You move; your twin mirrors you 180°. The floor remembers every tile you've touched — step on your past and you die. 5 hand-crafted levels. | [Play ▶️](https://sprig.hackclub.com/share/UTktIABTRpOXN3uuxV6V) |
+| 🌱 **Shadow Harvest** | Light/Shadow Strategy | Farm crystals by growing crops in matching light phases. Place mirrors to block beasts, flash to stun them. 3 phases, dynamic crop spawns. | [Play ▶️](https://sprig.hackclub.com/share/4dvtOmgFRtMj7giObQSe) |
+| 🎨 **Pixel Painter** | Generative Art Sandbox | Place colored tiles and watch them evolve via cellular automata rules. 120-second sessions, score by diversity × coverage. | [Play ▶️](https://sprig.hackclub.com/share/XH9wwilFpX9G1ofmORpU) |
+| 🔦 **The Great Laser Pointer Heist** | Stealth Puzzle | Play Garfield-X the meme cat! Flip gravity, dodge flashlight patrols, grab fish energy drives, and steal the legendary red laser pointer across 7 security zones. | [Play ▶️](https://sprig.hackclub.com/share/dCbT6z5p0pomstLxg2Ft) |
 
 ---
 
@@ -85,9 +85,8 @@ sprig-games/
 │   ├── mirrorself.js            # 🪞 Main game (paste this)
 │   └── play.html                # 🌐 Browser playable version
 │
-└── overload/
-    ├── game.js                  # ⚡ Main game (paste this)
-    └── README.md                # 📖 Overload design doc
+└── laser-pointer-heist/
+    └── game.js                  # 🔦 Main game (paste this)
 ```
 
 > **Note:** `node_modules/` is excluded from the gallery — games run entirely in the Sprig Editor via CDN. Keep it only if you run `npm start` for the standalone preview.
@@ -97,6 +96,11 @@ sprig-games/
 ## 🎮 Game Details & Controls
 
 ### 🌙 SprigOS (`sprigos/game.js`)
+
+![SprigOS screenshot](sprigos/screenshot.png)
+
+[▶️ Play on Sprig](https://sprig.hackclub.com/share/ANNlTxgIrId3kEl6fydN)
+
 ```
 W/S/A/D  — Navigate desktop / menus
 I        — Select / Open / Confirm
@@ -108,6 +112,11 @@ L        — Restart (after win or crash)
 ---
 
 ### 🃏 Arcana Ascent (`arcana_ascent/arcana_ascent.js`)
+
+![Arcana Ascent screenshot](arcana_ascent/arcana_title.png)
+
+[▶️ Play on Sprig](https://sprig.hackclub.com/share/2nz3NPD0nm5VvfpySjln)
+
 ```
 W/S      — Move cursor (hand / reward / deck)
 A/D      — Switch deck tabs (Deck / Draw / Discard)
@@ -122,6 +131,11 @@ L        — Back to title
 ---
 
 ### 🚂 Rail Yard Dispatcher (`rail-yard-dispatcher/rail_dispatcher.js`)
+
+![Rail Yard Dispatcher screenshot](rail-yard-dispatcher/thumbnail.png)
+
+[▶️ Play on Sprig](https://sprig.hackclub.com/share/0P2SdWjEwyQ1y0DJ7VnR)
+
 ```
 WASD     — Hop cursor between junction arrows
 I / J    — Rotate arrow under cursor (↑ → → ↓ ←)
@@ -133,6 +147,11 @@ L        — Restart run
 ---
 
 ### 🪞 MirrorSelf (`mirrorself/mirrorself.js`)
+
+![MirrorSelf screenshot](mirrorself/screenshot.png)
+
+[▶️ Play on Sprig](https://sprig.hackclub.com/share/UTktIABTRpOXN3uuxV6V)
+
 ```
 WASD     — Step both bodies simultaneously
 L        — Undo (once per level)
@@ -145,6 +164,11 @@ A/D      — Flip level in select screen
 ---
 
 ### 🌱 Shadow Harvest (`shadow-harvest/shadow_harvest.js`)
+
+![Shadow Harvest screenshot](shadow-harvest/screenshot.png)
+
+[▶️ Play on Sprig](https://sprig.hackclub.com/share/4dvtOmgFRtMj7giObQSe)
+
 ```
 WASD     — Move farmer
 I        — Harvest mature crop (stand on it)
@@ -156,6 +180,11 @@ K        — Flash (stun all beasts, 1 use/phase)
 ---
 
 ### 🎨 Pixel Painter (`pixel-painter/pixel-painter.js`)
+
+![Pixel Painter screenshot](pixel-painter/screenshot.png)
+
+[▶️ Play on Sprig](https://sprig.hackclub.com/share/XH9wwilFpX9G1ofmORpU)
+
 ```
 WASD     — Move cursor
 I        — Place Red
@@ -167,16 +196,18 @@ L        — Place Yellow
 
 ---
 
-### ⚡ Overload (`overload/game.js`)
+### 🔦 The Great Laser Pointer Heist (`laser-pointer-heist/game.js`)
+
+![The Great Laser Pointer Heist screenshot](laser-pointer-heist/screenshot.png)
+
+[▶️ Play on Sprig](https://sprig.hackclub.com/share/dCbT6z5p0pomstLxg2Ft)
+
 ```
-A / D    — Steer left / right
-W        — Brake (½ speed, ½ points)
-S        — Dive (2× speed, 2× points)
-I        — Pause
-J        — Start / Retry
+WASD     — Move Garfield-X
+J        — Flip gravity
+K        — Reset level
 ```
-**9 Levels:** Warm-Up → Spin Cycle → Static → Breath → Mirrors → Meltdown → Blackout → Overload → !!  
-**9 Effects:** Sway, Shake, Breathe, Mirror, Invert, Strobe, Palette, Ghost, Static
+**7 security zones** — Grab all fish energy drives, dodge Dr. Stick's flashlight patrols, steal the red laser pointer.
 
 ---
 
