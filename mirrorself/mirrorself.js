@@ -9,31 +9,33 @@ Five hand-crafted reflections, each a trap of its own.
 WASD = step both bodies. L = undo once. I = retry/next. K = level select.
 */
 
-// ============================ MIRRORSELF ============================
-// ONE brain. TWO bodies. One D-pad. Fight your own controller.
+// ============================================================
+//  MIRRORSELF -- one brain, two bodies, one D-pad
+//  basically u fight ur own controller lol
 //
-//  - YOU = 'h' (green). You obey WASD like any mortal.
-//  - TWIN = 't' (pink). It is the EXACT INVERSION of you around
-//    the map's center: twin always sits at (W-1-x, H-1-y). When
-//    you step right, it drifts left. When you climb, it sinks.
+//  - YOU = 'h' (the green guy). listens to WASD like a normal person
+//  - TWIN = 't' (pink). does the EXACT OPPOSITE of u around
+//    the middle of the map: twin sits at (W-1-x, H-1-y).
+//    u go right, it floats left. u jump, it sinks. enemy of my enemy etc
 //
-// RULES OF THE REFLECTION
-//  1. THE FLOOR REMEMBERS. You may never step on a tile you have
-//     already visited. It turns to haunted '*'. Touching it = death.
-//  2. SPIKES are death for BOTH bodies. One keystroke, two lives.
-//  3. WALLS are hard doors. If EITHER body would hit a wall, the
-//     whole step is refused.
-//  4. WIN: your twin rests at ITS door ('M') AND you rest at YOURS
-//     ('D'). Either order — your plan decides.
+//  THE RULES (read them or u will die a lot):
+//   1. THE FLOOR HAS MEMORY. stepped on a tile once? dont step on it
+//      again. it turns into haunted '*' and touching it = instant L.
+//   2. SPIKES kill BOTH bodies. one key, two funerals. brutal.
+//   3. WALLS are solid. if EITHER body would bonk a wall, the
+//      whole move gets rejected. u stay put. yes its annoying.
+//   4. TO WIN: twin has to sit on ITS door ('M') AND u sit on URS ('D').
+//      which one first doesnt matter, thats ur problem to figure out
 //
-// Controls:  W A S D  step both   L = undo (once per level)
-//            I = play / next     K = level select or menu
-//            A/D on select      flip level
+//  controls:  W A S D = step both    L = undo (once per level, dont waste it)
+//             I = play / next        K = level select / menu
+//             A/D on the select screen = flip thru levels
 // ============================================================
 
 // ------------------------- LEVELS -------------------------
-// Geometry is data, rendered into the 20x12 grid by buildRows().
-// D = hero door tile, M = twin door tile.
+// geometry is just data, buildRows() paints it onto the 20x12 grid.
+// D = hero's door tile, M = twin's door tile. the border wall is
+// drawn for free so i didnt have to type 60 #'s like a peasant
 
 const LEVELS = [
   {
@@ -41,7 +43,7 @@ const LEVELS = [
     startHero: [2, 5],
     doorHero: [3, 2],
     doorTwin: [2, 10],
-    walls: [],          // border added automatically
+    walls: [],          // border is auto-added, this one is an open field
     spikes: [[3, 1], [16, 1], [8, 5], [11, 6]],
   },
   {
@@ -62,14 +64,14 @@ const LEVELS = [
     name: "THE FORK",
     startHero: [8, 5],
     doorHero: [16, 2],
-    doorTwin: [5, 10], // hero must stand at twinAt([5,10]) = (14,1)
-    walls: [],         // open hall — the FORK is made by spikes
+    doorTwin: [5, 10], // hero has to stand at twinAt([5,10]) which is (14,1). math is fun
+    walls: [],         // no walls, the spikes ARE the maze here
     spikes: [
-      // mirrored spike pairs: each tooth hurts one body, its mirror hurts the other
-      [12, 2], [7, 9],    // pair: blocks the middle crossing
-      [9, 4], [10, 7],    // pair: the fork teeth
-      [17, 3], [2, 8],    // pair: corner teeth
-      [3, 10], [16, 1],   // pair: bottom-left / top-right teeth
+      // each spike has a mirror buddy: one bites u, the other bites the twin
+      [12, 2], [7, 9],    // these two guard the middle crossing
+      [9, 4], [10, 7],    // the fork teeth. pick a lane lol
+      [17, 3], [2, 8],    // corner teeth, easy to forget about
+      [3, 10], [16, 1],   // bottom-left & top-right, the sneaky ones
     ],
   },
   {
@@ -78,18 +80,18 @@ const LEVELS = [
     doorHero: [10, 4],
     doorTwin: [10, 8],
     walls: [
-      // two-room hall: left x1-4, middle x6-13, right x15-18
+      // three rooms: left x1-4, middle x6-13, right x15-18
       [5, 1], [5, 2], [5, 3], [5, 4],
       [5, 7], [5, 8], [5, 9], [5, 10],
       [14, 1], [14, 2], [14, 3], [14, 4],
       [14, 7], [14, 8], [14, 9], [14, 10],
-      // serpentine inside the middle room
+      // wiggly snake thing inside the middle room
       [9, 1], [9, 2], [9, 4],
       [10, 7], [10, 9], [10, 10],
     ],
     spikes: [
-      [4, 4], [4, 7],        // left-room gauntlet
-      [15, 4], [15, 7],      // twin gauntlet (mirror side)
+      [4, 4], [4, 7],        // left room welcome committee
+      [15, 4], [15, 7],      // same thing but for the twin side
       [6, 2], [13, 9],
     ],
   },
@@ -97,13 +99,13 @@ const LEVELS = [
     name: "FINAL REFRACTION",
     startHero: [3, 3],
     doorHero: [16, 9],
-    doorTwin: [3, 9], // hero must stand at twinAt([3,9]) = (16,2)
+    doorTwin: [3, 9], // hero stands at twinAt([3,9]) = (16,2). trust the process
     walls: [
-      // small island in the middle
+      // lil island in the dead center, blocks the easy route
       [9, 5], [10, 5], [9, 6], [10, 6],
     ],
     spikes: [
-      // a scattered minefield, mirrored pressure included
+      // just a whole minefield, good luck lmao
       [4, 8], [15, 3],
       [13, 4], [6, 7],
       [12, 5], [7, 6],
@@ -117,11 +119,13 @@ const LEVELS = [
 const MAP_W = 20;
 const MAP_H = 12;
 
+// sanity check so nobody sneaks a start position off the map
 for (const lv of LEVELS) {
   if (lv.startHero[0] < 0 || lv.startHero[0] >= MAP_W || lv.startHero[1] < 0 || lv.startHero[1] >= MAP_H) throw new Error(`bad start ${lv.name}`);
 }
 
 // ------------------------- GRID -------------------------
+// turns a level object into actual rows of tiles
 function buildRows(lv) {
   const rows = Array.from({ length: MAP_H }, (_y, y) =>
     Array.from({ length: MAP_W }, (_x, x) => {
@@ -133,20 +137,23 @@ function buildRows(lv) {
   for (const [x, y] of lv.spikes) if (rows[y][x] !== "#") rows[y][x] = "^";
   rows[lv.doorHero[1]][lv.doorHero[0]] = "D";
   rows[lv.doorTwin[1]][lv.doorTwin[0]] = "M";
-  rows[lv.startHero[1]][lv.startHero[0]] = ".";
+  rows[lv.startHero[1]][lv.startHero[0]] = ".";   // start tile must stay clean
   return rows;
 }
 
 // ------------------------- HELPERS -------------------------
+// the whole game in one line: twin is ur reflection thru the center
 const twinAt = (hx, hy) => [MAP_W - 1 - hx, MAP_H - 1 - hy];
 const isIn = (x, y) => x >= 0 && x < MAP_W && y >= 0 && y < MAP_H;
 
+// anything outside the board is treated as a wall (see rule 3)
 function cellAt(x, y, rows) {
   if (!isIn(x, y)) return "#";
   return rows[y][x];
 }
 
-// ------------------------- HUMAN =========================
+// ------------------------- ART -------------------------
+// hand-pressed pixels at 2am, do not judge the proportions
 const BG = bitmap`
 0000000000000000
 0000000000000000
@@ -300,11 +307,12 @@ const LEGEND = [
 ];
 
 // ------------------------- STATE -------------------------
+// one fat object so i dont have 20 globals floating around
 let S = {
   screen: "menu", // menu | select | game | win | lose | victory
   levelIdx: 0,
   heroX: 0, heroY: 0,
-  trail: [],            // your fatal past
+  trail: [],            // every tile u ever touched. ur sins.
   doorHeroDone: false,
   doorTwinDone: false,
   steps: 0,
@@ -313,6 +321,7 @@ let S = {
 };
 
 // ------------------------- BOOT -------------------------
+// wires up every key then drops u on the title screen
 function boot() {
   setLegend(...LEGEND);
   setBackground("g");
@@ -341,6 +350,7 @@ function boot() {
   menu();
 }
 
+// the 'i' key does something different on every screen, deal with it
 function actionI() {
   if (S.screen === "menu") { start(0); return; }
   if (S.screen === "select") { start(S.levelIdx); return; }
@@ -362,6 +372,7 @@ function menu() {
 }
 
 // ------------------------- START / RETRY -------------------------
+// resets everything to factory settings for the given level
 function start(lvIdx) {
   S.levelIdx = lvIdx;
   S.screen = "game";
@@ -380,31 +391,32 @@ function start(lvIdx) {
 function retry() { start(S.levelIdx); }
 
 // ------------------------- MOVEMENT -------------------------
+// the meat of the whole game. every WASD press runs thru this.
 function step(dx, dy) {
   if (S.screen !== "game") return;
   const rows = rowsNow();
   const nx = S.heroX + dx, ny = S.heroY + dy;
   const [tx, ty] = twinAt(nx, ny);
 
-  // either body hits wall/void → step refused
+  // rule 3: either body hits a wall -> whole step cancelled, no refund
   if (cellAt(nx, ny, rows) === "#") return;
   if (cellAt(tx, ty, rows) === "#") return;
-  // spikes → death to both
+  // rule 2: spikes -> both of u die. one input, two casualties
   if (cellAt(nx, ny, rows) === "^") { die("spike"); return; }
   if (cellAt(tx, ty, rows) === "^") { die("spike"); return; }
-  // out of ring → death (mirror pushed you off the board)
+  // the mirror yeeted somebody off the edge of existence
   if (!isIn(nx, ny) || !isIn(tx, ty)) { die("void"); return; }
-  // your own past is fatal
+  // rule 1: stepping on ur own trail is a death sentence
   for (const p of S.trail)
     if (p.x === nx && p.y === ny) { die("haunt"); return; }
 
-  // commit
+  // ok we're clear, actually move
   S.heroX = nx;
   S.heroY = ny;
   S.trail.push({ x: nx, y: ny });
   S.steps++;
 
-  // doors (use raw rows so '*' overlay never hides them)
+  // doors: raw rows used on purpose so the '*' overlay cant hide one
   const raw = buildRows(LEVELS[S.levelIdx]);
   if (!S.doorHeroDone && raw[ny][nx] === "D") S.doorHeroDone = true;
   if (!S.doorTwinDone && raw[ty][tx] === "M") S.doorTwinDone = true;
@@ -418,6 +430,7 @@ function step(dx, dy) {
   render();
 }
 
+// take back ONE step per level. use it wisely, u only get one
 function undo() {
   if (S.undoLeft <= 0 || S.trail.length <= 2) return;
   S.undoLeft--;
@@ -431,6 +444,8 @@ function undo() {
   render();
 }
 
+// after an undo we gotta re-check which doors were already touched
+// (undoing could theoretically un-complete a door, so just recompute)
 function reEvalDoors() {
   const raw = buildRows(LEVELS[S.levelIdx]);
   S.doorHeroDone = S.doorTwinDone = false;
@@ -441,6 +456,7 @@ function reEvalDoors() {
   }
 }
 
+// u messed up. lose a life and snap back to spawn, or just lose
 function die(reason) {
   S.lives--;
   playTune(SFX_DIE);
@@ -457,8 +473,11 @@ function die(reason) {
 }
 
 // ------------------------- RENDER -------------------------
-// text plane = 20 chars x 16 rows (char units). board = 20x12 tiles.
+// text plane is 20 chars wide and 16 rows tall. board is 20x12 tiles.
+// (fun fact: text and tiles are different sizes, dont mix them up lol)
 let mapDrawnFor = "";
+
+// builds the board WITH ur trail, hero and twin already stamped in
 function rowsNow() {
   const lv = LEVELS[S.levelIdx];
   const rows = buildRows(lv);
@@ -476,6 +495,7 @@ function drawMap() {
   setMap(rowsNow().map(r => r.join("")).join("\n"));
 }
 
+// level preview for the select screen, no trail no bodies, just the maze
 function drawPreview() {
   setMap(buildRows(LEVELS[S.levelIdx]).map(r => r.join("")).join("\n"));
 }
@@ -484,6 +504,7 @@ function drawBlack() {
   setMap(Array.from({ length: MAP_H }, () => ".".repeat(MAP_W)).join("\n"));
 }
 
+// draws whatever screen S says we're on. one big if-else ladder, classy
 function render() {
   clearText();
   const st = S.screen;
@@ -516,6 +537,7 @@ function render() {
   }
 
   if (st === "game" || st === "win" || st === "lose") {
+    // only redraw the map when something actually changed, saves cycles
     const tag = st + "|" + S.heroX + "," + S.heroY + "|" + S.trail.length;
     if (tag !== mapDrawnFor) { mapDrawnFor = tag; drawMap(); }
 
@@ -533,13 +555,14 @@ function render() {
       addText("i next    k choose", { x: 0, y: 6, color: color`7` });
       return;
     }
+    // lose screen, the one u'll be seeing a lot of
     addText("LOST IN THE GLASS", { x: 0, y: 2, color: color`3` });
     addText("you met your past.", { x: 0, y: 3, color: color`2` });
     addText("i retry   k back", { x: 0, y: 5, color: color`7` });
     return;
   }
 
-  // victory
+  // the good ending, u beat all five reflections. gigachad screen
   drawBlack();
   addText("YOU LEFT YOURSELF", { x: 0, y: 3, color: color`4` });
   addText("every door opened", { x: 1, y: 5, color: color`2` });
@@ -548,9 +571,11 @@ function render() {
 }
 
 // ------------------------- MUSIC -------------------------
+// tiny note-string builders so i dont have to hand-write giant tune strings
 function g(ms, notes) { return `${ms}: ${notes.map(([n, d]) => `${n}~${d}`).join(" + ")}`; }
 function tuneSeq(...groups) { return groups.join(", "); }
 
+// ambient drone for menus, loops forever (or until it gets annoying)
 const AMBIENT = tune`${tuneSeq(
   g(800, [["A3", 700], ["C4", 700]]),
   g(800, [["D4", 700], ["F4", 700]]),
@@ -568,7 +593,7 @@ const SFX_WIN = tune`${tuneSeq(
 
 boot();
 
-// expose internals for the test harness
+// exposed for the test harness so it can poke at my internals without mercy
 if (typeof module !== "undefined" && module.exports) {
   module.exports = {
     S, LEVELS, MAP_W, MAP_H,
