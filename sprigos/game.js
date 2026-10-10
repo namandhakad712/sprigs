@@ -1,5 +1,6 @@
-// 🌙 SprigOS — Paste into Sprig Editor and hit RUN!
-// CONTROLS: W/S navigate, I select, K back, L restart
+// 🌙 SprigOS v1.0 — paste in sprig editor and RUN
+// controls: W/S up down, I select, K back, L restart
+// tbh this started as a joke and now its a whole os lol
 
 setLegend(
   ["f", bitmap`2222 2222 2222 2222`],
@@ -23,6 +24,7 @@ setMap(map`
   wwwwffffww
 `)
 
+// sounds. the hack fail one is supposed 2 sound like a buzzer idk if it does
 const sfxClick = tune`c4:1`
 const sfxOpen = tune`c4:1 e4:1`
 const sfxSuccess = tune`c4:1 e4:1 g4:2`
@@ -37,6 +39,7 @@ let hackPuzzle = 0
 let hackWon = false
 let hackAttempts = 0
 
+// trivia for the hack minigame. dont @ me about the answers
 const puzzles = [
   { q: "What is 7 * 8?", opts: ["54", "56", "58", "60"], ans: 1 },
   { q: "Which key deletes the last char?", opts: ["Enter", "Space", "Backspace", "Tab"], ans: 2 },
@@ -45,6 +48,7 @@ const puzzles = [
   { q: "What color is Sprig's Run button?", opts: ["Green", "Red", "Blue", "Yellow"], ans: 0 },
 ]
 
+// draws whatever screen we on. clearText with "" bc sprig needs smth in there
 function render() {
   clearText("")
   if (screen === "desktop") {
@@ -73,6 +77,7 @@ function render() {
     addText("HACK TERMINAL", { x: 1, y: 0, color: color`3` })
     addText("----------", { x: 1, y: 1, color: color`3` })
     if (hackWon) {
+      // gg u did it
       addText("ACCESS GRANTED!", { x: 2, y: 3, color: color`4` })
       addText("You hacked SprigOS!", { x: 2, y: 5, color: color`4` })
       addText("Press L to restart", { x: 3, y: 7, color: color`2` })
@@ -90,6 +95,8 @@ function render() {
   }
 }
 
+// w moves up. s moves down. ik its weird that w is +1 but the y axis is
+// flipped in sprig so up = bigger y. took me forever to figure that out smh
 onInput("w", () => {
   if (screen === "desktop") { cursor = Math.min(3, cursor + 1) }
   else if (screen === "terminal") { cursor = Math.min(6, cursor + 1) }
@@ -106,6 +113,7 @@ onInput("s", () => {
   render()
 })
 
+// a/d also scroll the menu, extra comfiness
 onInput("a", () => {
   if (screen === "desktop") { cursor = Math.max(0, cursor - 1) }
   playTune(sfxClick)
@@ -118,15 +126,17 @@ onInput("d", () => {
   render()
 })
 
+// the select button. this is where all the stuff happens
 onInput("i", () => {
   if (screen === "desktop") {
     if (cursor === 0) { screen = "terminal"; cursor = 0 }
-    else if (cursor === 1) { screen = "desktop"; cursor = 0 }
-    else if (cursor === 2) { screen = "desktop"; cursor = 0 }
+    else if (cursor === 1) { screen = "desktop"; cursor = 0 }  // files app (todo: actually make it)
+    else if (cursor === 2) { screen = "desktop"; cursor = 0 }  // calc app (todo: this one too)
     else if (cursor === 3) { screen = "hack"; hackCursor = 0 }
     playTune(sfxOpen)
     render()
   } else if (screen === "terminal") {
+    // faking a real terminal, each cmd just prints one line lol
     if (cursor === 0) { addText("help: commands", { x: 1, y: 11, color: color`4` }) }
     else if (cursor === 1) { addText("ls: files", { x: 1, y: 11, color: color`4` }) }
     else if (cursor === 2) { addText("cd: dir", { x: 1, y: 11, color: color`4` }) }
@@ -151,6 +161,7 @@ onInput("i", () => {
     } else {
       hackAttempts++
       playTune(sfxHackFail)
+      // 3 strikes and the counter resets, its not game over just a little slap
       if (hackAttempts >= 3) { addText("Wrong! Try again.", { x: 1, y: 11, color: color`3` }); hackAttempts = 0 }
       else addText("Wrong! " + (3 - hackAttempts) + " tries left", { x: 1, y: 11, color: color`3` })
     }
@@ -169,6 +180,7 @@ onInput("k", () => {
   render()
 })
 
+// hard reset, mostly for after u win
 onInput("l", () => {
   hackPuzzle = 0; hackCursor = 0; hackWon = false; hackAttempts = 0; screen = "desktop"; cursor = 0
   addText("Restarted!", { x: 1, y: 11, color: color`2` })
