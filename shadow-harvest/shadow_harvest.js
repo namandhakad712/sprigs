@@ -6,14 +6,16 @@
 */
 
 // --- SPRITE KEYS ---
+// tbh the active/dark split for crystals is what makes the whole game tick
+// active = lit up, dark = beast got it and its out for 3 turns
 const P  = "p";  // player (farmer)
 const W  = "w";  // wall / ground
 const CA = "c";  // cyan crystal (active)
 const CD = "C";  // cyan crystal (dark)
 const MA = "m";  // magenta crystal (active)
-const MD = "n";  // magenta crystal (dark)
+const MD = "n";  // magenta crystal (dark)   <- n not d bc d is taken by dir buttons
 const AA = "a";  // amber crystal (active)
-const AD = "q";  // amber crystal (dark)
+const AD = "q";  // amber crystal (dark)     <- q bc honestly why not
 const C1 = "1";  // cyan crop (growing)
 const C2 = "2";  // cyan crop (mature — harvest with I)
 const M1 = "3";  // magenta crop (growing)
@@ -25,9 +27,8 @@ const BS = "B";  // beast (stunned — frozen in box)
 const MI = "*";  // mirror (blocks beast path)
 
 // =====================================================
-//  LEGEND — 16×16 bitmaps
-//  Color chars: . = transparent, 0 = dark, 4 = accent-1, 8 = accent-2
-//  Set your actual colors in the editor's color picker
+//  LEGEND — 16x16 bitmaps
+//  . = transparent, 0 = dark, 4 = accent-1, 8 = accent-2
 // =====================================================
 setLegend(
 [ P, bitmap`
@@ -73,9 +74,9 @@ setLegend(
 ...444444444444.
 ...444444444444.
 ....4444444444..
-.....44444444...
-......444444....
-.......44444....
+.....444444.....
+......4444......
+.......4444.....
 ........4444....
 ................
 ................
@@ -90,8 +91,8 @@ setLegend(
 ...000000000000.
 ...000000000000.
 ....0000000000..
-.....00000000...
-......000000....
+.....000000.....
+......0000......
 .......00000....
 ........0000....
 ................
@@ -124,8 +125,8 @@ setLegend(
 ...000000000000.
 ...000000000000.
 ....0000000000..
-.....00000000...
-......000000....
+.....000000.....
+......0000......
 .......00000....
 ........0000....
 ................
@@ -141,9 +142,9 @@ setLegend(
 ...444444444444.
 ...444444444444.
 ....4444444444..
-.....44444444...
-......444444....
-.......44444....
+.....444444.....
+......4444......
+.......4444.....
 ........4444....
 ................
 ................
@@ -158,14 +159,15 @@ setLegend(
 ...000000000000.
 ...000000000000.
 ....0000000000..
-.....00000000...
-......000000....
+.....000000.....
+......0000......
 .......00000....
 ........0000....
 ................
 ................
 ................
 ................`],
+// growing crops r just a sprout, mature ones get the full bushy thing
 [ C1, bitmap`
 ................
 ................
@@ -268,6 +270,7 @@ setLegend(
 ................
 ................
 ................`],
+// the beast. its supposed to be like a shadow blob with eyes, idk if it reads
 [ BA, bitmap`
 ................
 ................
@@ -285,6 +288,7 @@ setLegend(
 ................
 ................
 ................`],
+// stunned beast = trapped in a box. simple but it works
 [ BS, bitmap`
 ................
 ................
@@ -323,11 +327,10 @@ setLegend(
 
 // =====================================================
 //  BACKGROUND & MAPS
-//  Beast spawns far from crops — player has breathing room
 // =====================================================
 setBackground(W);
 
-// Phase 1 — 8×8: beast bottom-right, crop top-left
+// phase 1 (8x8): one crystal, one crop, beast far away in the corner
 const level1 = map`
 ........
 ..c.....
@@ -339,7 +342,7 @@ const level1 = map`
 ........
 `;
 
-// Phase 2 — 10×10: beast bottom-center, crops top-left
+// phase 2 (10x10): magenta joins the party
 const level2 = map`
 ..........
 ..c...m...
@@ -353,7 +356,7 @@ const level2 = map`
 .....b....
 `;
 
-// Phase 3 — 10×10: two beasts bottom, amber crystal is the choke point
+// phase 3 (10x10): 2 beasts, this one is genuinely hard ngl
 const level3 = map`
 ..........
 ..c...m...
@@ -369,7 +372,8 @@ const level3 = map`
 
 setMap(level1);
 setSolids([P, W, CA, CD, MA, MD, AA, AD, BA, BS, MI]);
-// crops are NOT solid — player walks over them to harvest
+// crops aint solid, u walk over them to harvest. if they were solid the
+// player would get stuck on their own farm and that would be peak cringe
 setPushables({ [P]: [] });
 
 // =====================================================
@@ -377,7 +381,7 @@ setPushables({ [P]: [] });
 // =====================================================
 var phase      = 1;
 var turn       = 0;
-var lightPhase = 0;
+var lightPhase = 0;          // 0=cyan 1=magenta 2=amber, cycles every 3 turns
 var darkTurns  = {c: 0, m: 0, a: 0};
 var basket     = {c: 0, m: 0, a: 0};
 var beastStun  = 0;
@@ -388,7 +392,7 @@ var showMsg    = null;
 var showHelp   = true;
 
 // =====================================================
-//  HELP SCREEN — shown on load, dismissed by any key
+//  HELP SCREEN — first thing u see, any key closes it
 // =====================================================
 addText("SHADOW HARVEST", { x: 0, y: 0, color: color`3` });
 addText("WASD: move",     { x: 1, y: 2, color: color`3` });
@@ -398,7 +402,8 @@ addText("Press any key to start", { x: 0, y: 7, color: color`3` });
 
 // =====================================================
 //  INPUT HANDLERS
-//  Every handler checks showHelp first — first key dismisses help
+//  every single one checks showHelp first so the first key
+//  tap dismisses the help screen instead of moving the guy
 // =====================================================
 onInput("w", () => {
   if (showHelp) { showHelp = false; clearText(); updateHUD(); return; }
@@ -421,7 +426,7 @@ onInput("d", () => {
   var p = getFirst(P); if (p) p.x += 1;
 });
 
-// i = HARVEST — stand on a mature crop
+// i = HARVEST — gotta stand ON the mature crop, standing next to it does nothing
 onInput("i", () => {
   if (showHelp || isGameOver) return;
   var p = getFirst(P); if (!p) return;
@@ -433,16 +438,16 @@ onInput("i", () => {
   }
 });
 
-// j = PLACE MIRROR — blocks beast path on this tile
+// j = MIRROR — plop it on ur tile to bodyblock the beast. its solid so it stays
 onInput("j", () => {
   if (showHelp || isGameOver) return;
   var p = getFirst(P); if (!p) return;
   var tiles = getTile(p.x, p.y);
-  for (var s of tiles) { if (s.type === MI) return; }
+  for (var s of tiles) { if (s.type === MI) return; }  // already a mirror here, skip
   addSprite(p.x, p.y, MI);
 });
 
-// k = FLASH — stuns all beasts for 3 turns
+// k = FLASH — freezes every beast for 3 turns. its a panic button basically
 onInput("k", () => {
   if (showHelp || isGameOver || flashUses <= 0) return;
   flashUses--;
@@ -456,7 +461,7 @@ onInput("l", () => {
 });
 
 // =====================================================
-//  AFTER EVERY INPUT — GAME LOGIC
+//  AFTER EVERY INPUT — the actual game logic runs here
 // =====================================================
 afterInput(() => {
   if (showHelp) return;
@@ -465,7 +470,7 @@ afterInput(() => {
   turn++;
   cropTimer++;
 
-  // Beast stun countdown
+  // stun countdown, when it hits 0 the beasts wake back up
   if (beastStun > 0) {
     beastStun--;
     if (beastStun === 0) {
@@ -476,25 +481,21 @@ afterInput(() => {
     moveBeasts();
   }
 
-  // Light phase cycle (every 3 turns)
+  // light phase rotates every 3 turns, this is the core gimmick
   if (turn % 3 === 0) lightPhase = (lightPhase + 1) % 3;
 
-  // Crop growth / revert
   growCrops();
 
-  // New crop spawn (every 8 turns)
+  // new crop pops somewhere random every 8 turns, keeps the board alive
   if (cropTimer >= 8) { cropTimer = 0; spawnCrop(); }
 
-  // Crystal recovery
   recoverCrystals();
 
-  // Win / lose
   checkWinLose();
 
-  // HUD
   updateHUD();
 
-  // One-frame harvest message
+  // harvest popup only stays for one frame, then its gone
   if (showMsg) {
     addText(showMsg, { x: 0, y: 1, color: color`3` });
     showMsg = null;
@@ -502,9 +503,9 @@ afterInput(() => {
 });
 
 // =====================================================
-//  BEAST AI — moves 1 tile toward nearest active crystal
-//  every 2 turns. Can be blocked by mirrors, walls,
-//  other beasts. Stunned beasts don't move.
+//  BEAST AI — chases the nearest lit crystal, moves every
+//  2 turns. mirrors/walls/other beasts block it. its not
+//  smart, its not supposed to be, its a shadow blob
 // =====================================================
 function moveBeasts() {
   var beasts = getAll(BA);
@@ -517,6 +518,7 @@ function moveBeasts() {
       var dy = target.y - b.y;
       var moved = false;
 
+      // try to close the bigger gap first, then wiggle on the other axis
       if (Math.abs(dx) >= Math.abs(dy)) {
         var nx = b.x + (dx > 0 ? 1 : -1);
         if (!beastBlocked(nx, b.y)) { b.x = nx; moved = true; }
@@ -534,7 +536,7 @@ function moveBeasts() {
       }
     }
 
-    // Did beast land on a crystal? Extinguish it.
+    // if the beast ends a move ON a crystal, boom, crystal goes dark
     var tiles = getTile(b.x, b.y);
     for (var s of tiles) {
       if (s.type === CA) { s.type = CD; darkTurns.c = 3; }
@@ -545,7 +547,8 @@ function moveBeasts() {
 }
 
 function getBeastTarget() {
-  // Target the nearest active crystal (not dark)
+  // goes for cyan first, its the "primary" crystal. if cyans all dark
+  // it settles for magenta, then amber. priorities
   var c = getFirst(CA); if (c) return c;
   var m = getFirst(MA); if (m) return m;
   var a = getFirst(AA); if (a) return a;
@@ -562,9 +565,9 @@ function beastBlocked(x, y) {
 }
 
 // =====================================================
-//  CROP GROWTH — crops mature when lightPhase matches
-//  AND the crystal is active. If the crystal is dark
-//  during their phase, mature crops REVERT to growing.
+//  CROP GROWTH — crops only mature when their color phase
+//  is active AND their crystal is still lit. if the beast
+//  snuffed the crystal, mature crops SHRINK back. brutal
 // =====================================================
 function growCrops() {
   if (lightPhase === 0) {
@@ -591,8 +594,7 @@ function growCrops() {
 }
 
 // =====================================================
-//  CROP SPAWN — new crops appear on random empty tiles
-//  every 8 turns, keeping the map dynamic
+//  CROP SPAWN — picks a random empty tile every 8 turns
 // =====================================================
 function spawnCrop() {
   var cropType;
@@ -615,14 +617,13 @@ function spawnCrop() {
 function isEmptyTile(x, y) {
   var tiles = getTile(x, y);
   for (var s of tiles) {
-    if (s.type !== W) return false;
+    if (s.type !== W) return false;   // only floor tiles count as empty
   }
   return true;
 }
 
 // =====================================================
-//  CRYSTAL RECOVERY — dark crystals come back online
-//  after 3 turns
+//  CRYSTAL RECOVERY — 3 turns after going dark it relights
 // =====================================================
 function recoverCrystals() {
   if (darkTurns.c > 0) {
@@ -647,6 +648,8 @@ function recoverCrystals() {
 
 // =====================================================
 //  WIN / LOSE
+//  u need 3 of each color to push to the next phase
+//  lose if a crystal stays dark too long (the dark wins, get it)
 // =====================================================
 function checkWinLose() {
   if (phase === 1 && basket.c >= 3) { loadPhase(2); return; }
@@ -671,7 +674,7 @@ function checkWinLose() {
 
 function loadPhase(nextPhase) {
   phase = nextPhase;
-  flashUses = 2;
+  flashUses = 2;    // extra flash charge for the harder phases, ur gonna need it
   beastStun = 0;
   cropTimer = 0;
   darkTurns = {c: 0, m: 0, a: 0};
@@ -684,9 +687,8 @@ function loadPhase(nextPhase) {
 }
 
 // =====================================================
-//  HUD — one line at the top showing game state
-//  P = phase, L = light phase (0=cyan 1=magenta 2=amber)
-//  c/m/a = harvested crops, F = flashes remaining
+//  HUD — one cramped line at the top
+//  P=phase L=light phase c/m/a=basket F=flashes left
 // =====================================================
 function updateHUD() {
   clearText();
