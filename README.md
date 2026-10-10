@@ -6,7 +6,7 @@
 
 ## 🎯 What is This?
 
-Bro this repo is lit! 🔥 It contains **7 complete, polished Sprig games** — each made so you can copy-paste straight into the [Sprig Editor](https://sprig.hackclub.com/editor) and play on web ya phir physical Sprig console pe.
+Bro this repo is lit! 🔥 It contains **8 complete, polished Sprig games** — each made so you can copy-paste straight into the [Sprig Editor](https://sprig.hackclub.com/editor) and play on web ya phir physical Sprig console pe.
 
 | Game | Genre | Description | Play |
 |------|-------|-------------|------|
@@ -17,6 +17,7 @@ Bro this repo is lit! 🔥 It contains **7 complete, polished Sprig games** — 
 | 🌱 **Shadow Harvest** | Light/Shadow Strategy | Farm crystals by growing crops in matching light phases. Place mirrors to block beasts, flash to stun them. 3 phases, dynamic crop spawns. | [Play ▶️](https://sprig.hackclub.com/share/4dvtOmgFRtMj7giObQSe) |
 | 🎨 **Pixel Painter** | Generative Art Sandbox | Place colored tiles and watch them evolve via cellular automata rules. 120-second sessions, score by diversity × coverage. | [Play ▶️](https://sprig.hackclub.com/share/XH9wwilFpX9G1ofmORpU) |
 | 🔦 **The Great Laser Pointer Heist** | Stealth Puzzle | Play Garfield-X the meme cat! Flip gravity, dodge flashlight patrols, grab fish energy drives, and steal the legendary red laser pointer across 7 security zones. | [Play ▶️](https://sprig.hackclub.com/share/dCbT6z5p0pomstLxg2Ft) |
+| ⚠️ **Overload** | Endless Arcade | Fall down an endless shaft, dodge the junk, and survive the effects that cook ur senses — twist, breathing walls, strobing, mirrors, inverted controls. Heads up: flashing lights. | [Play ▶️](play.html?game=overload) |
 
 ---
 
@@ -85,8 +86,11 @@ sprig-games/
 │   ├── mirrorself.js            # 🪞 Main game (paste this)
 │   └── play.html                # 🌐 Browser playable version
 │
-└── laser-pointer-heist/
-    └── game.js                  # 🔦 Main game (paste this)
+├── laser-pointer-heist/
+│   └── game.js                  # 🔦 Main game (paste this)
+│
+└── overload/
+    └── overload.js              # ⚠️ Main game (paste this)
 ```
 
 > **Note:** `node_modules/` is excluded from the gallery — games run entirely in the Sprig Editor via CDN. Keep it only if you run `npm start` for the standalone preview.
@@ -208,6 +212,23 @@ J        — Flip gravity
 K        — Reset level
 ```
 **7 security zones** — Grab all fish energy drives, dodge Dr. Stick's flashlight patrols, steal the red laser pointer.
+
+---
+
+### ⚠️ Overload (`overload/overload.js`)
+
+![Overload screenshot](overload/screenshot.png)
+
+[▶️ Play in browser](play.html?game=overload)
+
+```
+A / D    — steer left / right
+W        — brake (slower world, half points)
+S        — dive (faster world, 2x points)
+I        — pause
+J        — start / retry
+```
+**Endless fall** — dodge the junk while the effects stack up: twisting, breathing walls, strobing, mirror flips, inverted controls, static, double vision. When INVERT is on, W and S swap. Heads up: flashing lights.
 
 ---
 
