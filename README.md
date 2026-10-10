@@ -6,7 +6,7 @@
 
 ## 🎯 What is This?
 
-This repository houses **7 complete, polished Sprig games** — each designed to be copied straight into the [Sprig Editor](https://sprig.hackclub.com/editor) and played instantly on the web or on the physical **Sprig console**.
+Bro this repo is lit! 🔥 It contains **7 complete, polished Sprig games** — each made so you can copy-paste straight into the [Sprig Editor](https://sprig.hackclub.com/editor) and play on web ya phir physical Sprig console pe.
 
 | Game | Genre | Description | Play |
 |------|-------|-------------|------|
@@ -22,7 +22,7 @@ This repository houses **7 complete, polished Sprig games** — each designed to
 
 ## 🚀 Quick Start
 
-### Play Any Game in 10 Seconds
+### Play Any Game in 10 Seconds (seriously bro)
 
 1. Open **[sprig.hackclub.com/editor](https://sprig.hackclub.com/editor)**
 2. Click **New Game**
